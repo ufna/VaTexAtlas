@@ -14,6 +14,7 @@ class VATEXATLASEDITORPLUGIN_API UVtaTextureAtlasFactory : public UFactory
 
 	// Begin UFactory interface
 	virtual UObject* FactoryCreateNew(UClass* Class, UObject* InParent, FName Name, EObjectFlags Flags, UObject* Context, FFeedbackContext* Warn) override;
+	virtual bool CanCreateNew() const override;
 	// End UFactory interface
 
 };

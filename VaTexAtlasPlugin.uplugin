@@ -9,6 +9,7 @@
 	"EngineVersion" : "4.10.0",
 	"Description" : "",
 	"Category" : "Materials",
+	"EnabledByDefault" : true,
 	"CanContainContent" : false,
 
 	"Modules" :
@@ -20,7 +21,8 @@
 		},
 		{
 			"Name": "VaTexAtlasEditorPlugin",
-			"Type": "Editor"
+			"Type": "Editor",
+			"LoadingPhase": "Default"
 		}
 	]
 }

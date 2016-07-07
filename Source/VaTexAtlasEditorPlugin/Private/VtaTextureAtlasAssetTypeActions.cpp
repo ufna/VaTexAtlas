@@ -6,7 +6,7 @@
 
 FText FVtaTextureAtlasAssetTypeActions::GetName() const
 {
-	return LOCTEXT("FSpriteSheetAssetTypeActionsName", "Sprite Sheet");
+	return LOCTEXT("FVtaTextureAtlasAssetTypeActions", "Texture Atlas");
 }
 
 FColor FVtaTextureAtlasAssetTypeActions::GetTypeColor() const
@@ -26,11 +26,13 @@ uint32 FVtaTextureAtlasAssetTypeActions::GetCategories()
 
 bool FVtaTextureAtlasAssetTypeActions::IsImportedAsset() const
 {
-	return true;
+	return false;// true;
 }
 
 void FVtaTextureAtlasAssetTypeActions::GetResolvedSourceFilePaths(const TArray<UObject*>& TypeAssets, TArray<FString>& OutSourceFilePaths) const
 {
+	FAssetTypeActions_Base::GetResolvedSourceFilePaths(TypeAssets, OutSourceFilePaths);
+
 	for (auto& Asset : TypeAssets)
 	{
 		// @TODO 
