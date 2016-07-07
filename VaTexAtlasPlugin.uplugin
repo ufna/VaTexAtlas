@@ -1,0 +1,26 @@
+{
+	"FileVersion" : 3,
+	
+	"FriendlyName" : "VaTexAtlas",
+	"Version" : 1,
+	"VersionName" : "1.0-r1",
+	"CreatedBy" : "Vladimir Alyamkin",
+	"CreatedByURL" : "http://alyamkin.com",
+	"EngineVersion" : "4.10.0",
+	"Description" : "",
+	"Category" : "Materials",
+	"CanContainContent" : false,
+
+	"Modules" :
+	[
+		{
+			"Name" : "VaTexAtlasPlugin",
+			"Type" : "Runtime",
+			"LoadingPhase": "PreDefault"
+		},
+		{
+			"Name": "VaTexAtlasEditorPlugin",
+			"Type": "Editor"
+		}
+	]
+}
