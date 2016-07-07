@@ -13,4 +13,4 @@ DECLARE_LOG_CATEGORY_EXTERN(LogVaTexAtlas, Log, All);
 
 #include "IVaTexAtlasPlugin.h"
 
-//#include "VaTexAtlasPluginClasses.h"
+#include "VaTexAtlasPluginClasses.h"
