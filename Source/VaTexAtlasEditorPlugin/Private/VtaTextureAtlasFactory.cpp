@@ -66,7 +66,7 @@ UObject* UVtaTextureAtlasFactory::FactoryCreateText(UClass* InClass, UObject* In
 	const FString FileContent(BufferEnd - Buffer, Buffer);
 	TSharedPtr<FJsonObject> DescriptorObject = ParseJSON(FileContent, NameForErrors);
 
-	UObject* Result = nullptr;
+	UVtaTextureAtlasImportData* Result = nullptr;
 
 	// Parse the file 
 	FVtaDataFile DataModel;
@@ -80,15 +80,15 @@ UObject* UVtaTextureAtlasFactory::FactoryCreateText(UClass* InClass, UObject* In
 	{
 		const bool bSilent = false;
 
-		//Result = NewObject<UVtaTextureAtlasAssetImportData>(InParent, InName, Flags);
-		//Result->Modify();
+		Result = NewObject<UVtaTextureAtlasImportData>(InParent, InName, Flags);
+		Result->Modify();
 
-		// @TODO: Do some things here maybe?
-		//Result->ImportedData = DataModel;
+		// Cache data for debug
+		Result->ImportedData = DataModel;
 
 		// @TODO
 
-		// Result->PostEditChange();
+		Result->PostEditChange();
 	}
 
 	if (Result != nullptr)

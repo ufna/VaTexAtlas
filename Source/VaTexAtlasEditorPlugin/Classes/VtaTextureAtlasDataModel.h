@@ -19,10 +19,32 @@ public:
 
 
 //////////////////////////////////////////////////////////////////////////
-// FVtaFrameRegion
+// FVtaSize
 
 USTRUCT()
-struct FVtaFrameRegion : public FVtaJsonImportable
+struct FVtaSize : public FVtaJsonImportable
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
+	int32 W;
+
+	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
+	int32 H;
+
+public:
+	FVtaSize();
+
+	bool ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent) override;
+
+};
+
+
+//////////////////////////////////////////////////////////////////////////
+// FVtaRegion
+
+USTRUCT()
+struct FVtaRegion : public FVtaJsonImportable
 {
 	GENERATED_USTRUCT_BODY()
 
@@ -39,7 +61,7 @@ struct FVtaFrameRegion : public FVtaJsonImportable
 	int32 H;
 
 public:
-	FVtaFrameRegion();
+	FVtaRegion();
 
 	bool ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent) override;
 
@@ -61,7 +83,7 @@ public:
 	
 	// "frame": {"x":387,"y":467,"w":300,"h":347},
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
-	FVtaFrameRegion Frame;
+	FVtaRegion Frame;
 
 public:
 	bool ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent) override;
@@ -96,15 +118,9 @@ public:
 
 	// "size": {"w":1024,"h":1024},
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
-	int32 Width;
-
-	// "size": {"w":1024,"h":1024},
-	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
-	int32 Height;
+	FVtaSize Size;
 
 public:
-	FVtaMeta();
-
 	bool ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent) override;
 
 };
