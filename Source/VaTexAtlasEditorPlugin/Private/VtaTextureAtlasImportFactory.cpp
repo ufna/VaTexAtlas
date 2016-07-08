@@ -22,7 +22,7 @@ UVtaTextureAtlasImportFactory::UVtaTextureAtlasImportFactory(const class FObject
 	bText = true;
 
 	Formats.Add(TEXT("vta;VaTexAtlas data file"));
-	//Formats.Add(TEXT("json;VaTexAtlas JSON file"));
+	Formats.Add(TEXT("json;VaTexAtlas JSON file"));
 }
 
 FText UVtaTextureAtlasImportFactory::GetToolTip() const
@@ -134,6 +134,10 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 				if (TargetFrame)
 				{
 					TargetFrame->Modify();
+				}
+				else
+				{
+					UE_LOG(LogVaTexAtlasEditor, Error, TEXT("Failed to load existing frame: '%s'"), *Frame.Filename);
 				}
 			}
 			
