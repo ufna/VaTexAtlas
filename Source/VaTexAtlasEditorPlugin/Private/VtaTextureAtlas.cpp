@@ -42,3 +42,15 @@ void UVtaTextureAtlas::Serialize(FArchive& Ar)
 }
 
 #endif // WITH_EDITORONLY_DATA
+
+void UVtaTextureAtlas::EmptyData()
+{
+	ImportedData = FVtaDataFile();
+
+	FrameNames.Empty();
+	Frames.Empty();
+
+	TextureName = FString();
+
+	Texture = nullptr;
+}

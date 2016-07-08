@@ -17,6 +17,7 @@ UVtaTextureAtlasImportFactory::UVtaTextureAtlasImportFactory(const class FObject
 {
 	SupportedClass = UVtaTextureAtlas::StaticClass();
 	bCreateNew = false;
+	bEditAfterNew = true;
 
 	bEditorImport = true;
 	bText = true;
@@ -67,6 +68,13 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 	const FString NameForErrors(InName.ToString());
 	const FString FileContent(BufferEnd - Buffer, Buffer);
 	TSharedPtr<FJsonObject> DescriptorObject = ParseJSON(FileContent, NameForErrors);
+
+	// Clear existing atlas
+	UVtaTextureAtlas* ExistingAtlas = FindObject<UVtaTextureAtlas>(InParent, *InName.ToString());
+	if (ExistingAtlas)
+	{
+		ExistingAtlas->EmptyData();
+	}
 
 	UVtaTextureAtlas* Result = nullptr;
 	UTexture2D* ImageTexture = nullptr;

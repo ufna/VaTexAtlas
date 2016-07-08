@@ -43,4 +43,7 @@ public:
 	// End of UObject interface
 #endif
 
+	/** Empty existing data */
+	void EmptyData();
+
 };
