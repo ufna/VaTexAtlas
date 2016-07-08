@@ -15,9 +15,6 @@
 // add includes for headers that are used in most of your module's source files though.
 #include "ModuleManager.h"
 
-// Includes from public module
-#include "VtaTextureAtlas.h"
-
 DECLARE_LOG_CATEGORY_EXTERN(LogVaTexAtlasEditor, Log, All);
 
 #include "IVaTexAtlasEditorPlugin.h"

@@ -38,7 +38,11 @@ void FVtaTextureAtlasAssetTypeActions::GetResolvedSourceFilePaths(const TArray<U
 
 	for (auto& Asset : TypeAssets)
 	{
-		// @TODO 
+		const auto TexttureAtlas = CastChecked<UVtaTextureAtlas>(Asset);
+		if (TexttureAtlas->AssetImportData)
+		{
+			TexttureAtlas->AssetImportData->ExtractFilenames(OutSourceFilePaths);
+		}
 	}
 }
 

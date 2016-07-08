@@ -10,8 +10,6 @@ namespace UnrealBuildTool.Rules
 		{
 			PublicIncludePaths.AddRange(
 			new string[] {
-				"VaTexAtlasPlugin",
-				"VaTexAtlasPlugin/Public"
 				// ... add public include paths required here ...
 			});
 
@@ -31,8 +29,7 @@ namespace UnrealBuildTool.Rules
 					"Engine",
                     "Json",
                     "UnrealEd",
-					"ContentBrowser",
-					"VaTexAtlasPlugin"
+					"ContentBrowser"
 					// ... add other public dependencies that you statically link with here ...
 				});
 

@@ -10,15 +10,10 @@
 	"Description" : "",
 	"Category" : "Materials",
 	"EnabledByDefault" : true,
-	"CanContainContent" : false,
+	"CanContainContent" : true,
 
 	"Modules" :
 	[
-		{
-			"Name" : "VaTexAtlasPlugin",
-			"Type" : "Runtime",
-			"LoadingPhase": "PreDefault"
-		},
 		{
 			"Name": "VaTexAtlasEditorPlugin",
 			"Type": "Editor",

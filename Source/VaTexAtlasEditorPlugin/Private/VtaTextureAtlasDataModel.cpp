@@ -25,7 +25,20 @@ bool FVtaSize::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameFo
 {
 	bool bSuccessfullyParsed = true;
 
-	// @TODO
+	// An example:
+	//   "size" : {"w":1024, "h" : 1024},
+
+	// Try parsing the W
+	if (!Tree->TryGetNumberField(TEXT("w"), W))
+	{
+		VTA_IMPORT_WARNING(TEXT("Expected a 'w' field in the Size object of '%s'."), *NameForErrors);
+	}
+
+	// Try parsing the H
+	if (!Tree->TryGetNumberField(TEXT("h"), H))
+	{
+		VTA_IMPORT_WARNING(TEXT("Expected a 'h' field in the Size object of '%s'."), *NameForErrors);
+	}
 
 	return bSuccessfullyParsed;
 }
@@ -47,7 +60,32 @@ bool FVtaRegion::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& Name
 {
 	bool bSuccessfullyParsed = true;
 
-	// @TODO
+	// An example:
+	//   {"x":693,"y":1,"w":325,"h":300},
+
+	// Try parsing the X
+	if (!Tree->TryGetNumberField(TEXT("x"), X))
+	{
+		VTA_IMPORT_WARNING(TEXT("Expected a 'x' field in the Region object of '%s'."), *NameForErrors);
+	}
+
+	// Try parsing the Y
+	if (!Tree->TryGetNumberField(TEXT("y"), Y))
+	{
+		VTA_IMPORT_WARNING(TEXT("Expected a 'y' field in the Region object of '%s'."), *NameForErrors);
+	}
+
+	// Try parsing the W
+	if (!Tree->TryGetNumberField(TEXT("w"), W))
+	{
+		VTA_IMPORT_WARNING(TEXT("Expected a 'w' field in the Region object of '%s'."), *NameForErrors);
+	}
+
+	// Try parsing the H
+	if (!Tree->TryGetNumberField(TEXT("h"), H))
+	{
+		VTA_IMPORT_WARNING(TEXT("Expected a 'h' field in the Region object of '%s'."), *NameForErrors);
+	}
 
 	return bSuccessfullyParsed;
 }
@@ -60,7 +98,41 @@ bool FVtaFrame::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameF
 {
 	bool bSuccessfullyParsed = true;
 
-	// @TODO
+	// An example:
+	//   "filename": "test_image",
+	//   "frame": {"x":693,"y":1,"w":325,"h":300},
+	//   "rotated": false,										[ignored]
+	//   "trimmed": false,										[ignored]
+	//   "spriteSourceSize": {"x":0,"y":0,"w":325,"h":300},		[ignored]
+	//   "sourceSize": {"w":325,"h":300},						[ignored]
+	//   "pivot": {"x":0.5,"y":0.5}								[ignored]
+
+	// Try parsing the filename
+	if (!Tree->TryGetStringField(TEXT("filename"), Filename))
+	{
+		Filename = TEXT("(missing filename)");
+		VTA_IMPORT_ERROR(TEXT("Expected a 'filename' field in the Frame object of '%s'."), *NameForErrors);
+		bSuccessfullyParsed = false;
+	}
+	else if (Filename.IsEmpty())
+	{
+		Filename = TEXT("(empty filename)");
+		VTA_IMPORT_ERROR(TEXT("Expected a non-empty 'filename' field in the Frame object of '%s'."), *NameForErrors);
+		bSuccessfullyParsed = false;
+	}
+
+	// Try parsing the frame region
+	const TSharedPtr<FJsonObject>* RegionDescriptor;
+	if (Tree->TryGetObjectField(TEXT("frame"), RegionDescriptor))
+	{
+		const bool bParsedEntityOK = Frame.ParseFromJSON(*RegionDescriptor, NameForErrors, bSilent);
+		bSuccessfullyParsed = bSuccessfullyParsed && bParsedEntityOK;
+	}
+	else
+	{
+		VTA_IMPORT_ERROR(TEXT("Expected a 'frame' field in the Frame object of '%s'."), *NameForErrors);
+		bSuccessfullyParsed = false;
+	}
 
 	return bSuccessfullyParsed;
 }
@@ -72,6 +144,15 @@ bool FVtaFrame::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameF
 bool FVtaMeta::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent)
 {
 	bool bSuccessfullyParsed = true;
+
+	// An example:
+	//   "app": "http://www.codeandweb.com/texturepacker",		[optional]
+	//   "version" : "1.0",										[optional]
+	//   "image" : "testatlas.png",
+	//   "format" : "RGBA8888",									[optional, ignored]
+	//   "size" : {"w":1024, "h" : 1024},						[optional, ignored]
+	//   "scale" : "1",											[ignored]
+	//   "smartupdate" : "..."									[ignored]
 
 	// Try parsing the generator app
 	if (!Tree->TryGetStringField(TEXT("app"), App))
