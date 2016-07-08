@@ -5,7 +5,7 @@
 #include "VtaTextureAtlasImportFactory.generated.h"
 
 /**
- * 
+ * Imports a texture atlas (and associated frames and textures) from a JSON file exported from Adobe Flash CS6, Texture Packer, or other compatible tool
  */
 UCLASS()
 class VATEXATLASEDITORPLUGIN_API UVtaTextureAtlasImportFactory : public UFactory

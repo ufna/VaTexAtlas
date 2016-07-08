@@ -131,7 +131,10 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 			if (bIsReimporting)
 			{
 				TargetFrame = FindExistingFrame(Frame.Filename);
-				TargetFrame->Modify();
+				if (TargetFrame)
+				{
+					TargetFrame->Modify();
+				}
 			}
 			
 			// Check we should create new one

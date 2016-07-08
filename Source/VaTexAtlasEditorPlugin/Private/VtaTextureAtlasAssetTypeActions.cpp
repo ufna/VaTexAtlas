@@ -24,12 +24,12 @@ UClass* FVtaTextureAtlasAssetTypeActions::GetSupportedClass() const
 
 uint32 FVtaTextureAtlasAssetTypeActions::GetCategories()
 {
-	return EAssetTypeCategories::MaterialsAndTextures;
+	return EAssetTypeCategories::Misc;
 }
 
 bool FVtaTextureAtlasAssetTypeActions::IsImportedAsset() const
 {
-	return false;// true;
+	return true;
 }
 
 void FVtaTextureAtlasAssetTypeActions::GetResolvedSourceFilePaths(const TArray<UObject*>& TypeAssets, TArray<FString>& OutSourceFilePaths) const

@@ -12,23 +12,23 @@ class VATEXATLASEDITORPLUGIN_API UVtaTextureAtlas : public UObject
 
 public:
 	// @TODO: For debug only
-	UPROPERTY(VisibleAnywhere, Category = Data)
+	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	FVtaDataFile ImportedData;
 
 	/** The names of frames during import */
-	UPROPERTY(VisibleAnywhere, Category = Data)
+	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	TArray<FString> FrameNames;
 
 	/** */
-	UPROPERTY(VisibleAnywhere, Category = Data)
+	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	TArray< TAssetPtr<class UMaterialInstanceConstant> > Frames;
 
 	/** The name of the atlas texture during import */
-	UPROPERTY(VisibleAnywhere, Category = Data)
+	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	FString TextureName;
 
 	/** The asset that was created for TextureName */
-	UPROPERTY(VisibleAnywhere, Category = Data)
+	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	UTexture2D* Texture;
 
 #if WITH_EDITORONLY_DATA
