@@ -29,7 +29,8 @@ namespace UnrealBuildTool.Rules
 					"Core",
 					"CoreUObject",
 					"Engine",
-					"UnrealEd",
+                    "Json",
+                    "UnrealEd",
 					"ContentBrowser",
 					"VaTexAtlasPlugin"
 					// ... add other public dependencies that you statically link with here ...

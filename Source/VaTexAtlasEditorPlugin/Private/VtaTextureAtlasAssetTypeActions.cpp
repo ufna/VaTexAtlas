@@ -2,7 +2,10 @@
 
 #include "VtaEditorPlugin.h"
 
-#define LOCTEXT_NAMESPACE "AssetTypeActions"
+#define LOCTEXT_NAMESPACE "VtaEditorPlugin"
+
+//////////////////////////////////////////////////////////////////////////
+// FVtaTextureAtlasAssetTypeActions
 
 FText FVtaTextureAtlasAssetTypeActions::GetName() const
 {
@@ -43,5 +46,7 @@ void FVtaTextureAtlasAssetTypeActions::GetActions(const TArray<UObject*>& InObje
 {
 	
 }
+
+//////////////////////////////////////////////////////////////////////////
 
 #undef LOCTEXT_NAMESPACE

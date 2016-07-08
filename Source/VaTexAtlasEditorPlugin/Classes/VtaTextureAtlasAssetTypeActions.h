@@ -5,7 +5,7 @@
 #include "AssetTypeActions_Base.h"
 
 /**
- * 
+ * Imports texture atlas from .vta descriptor
  */
 class VATEXATLASEDITORPLUGIN_API FVtaTextureAtlasAssetTypeActions : public FAssetTypeActions_Base
 {
