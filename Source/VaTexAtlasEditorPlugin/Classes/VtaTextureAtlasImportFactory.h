@@ -26,6 +26,8 @@ protected:
 	static UTexture2D* ImportTexture(const FString& SourceFilename, const FString& TargetSubPath);
 	static UTexture2D* ImportOrReimportTexture(UTexture2D* ExistingTexture, const FString& SourceFilename, const FString& TargetSubPath);
 
+	static FString BuildFrameName(const FString& AtlasName, const FString& FrameName);
+
 
 	//////////////////////////////////////////////////////////////////////////
 	// Reimport (used by derived class to provide existing data)

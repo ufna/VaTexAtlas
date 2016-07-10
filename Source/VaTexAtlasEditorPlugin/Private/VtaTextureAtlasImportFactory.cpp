@@ -100,11 +100,11 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 		Result->ImportedData = DataModel;
 
 		// Load the base texture
-		const FString SourceSheetImageFilename = FPaths::Combine(*CurrentSourcePath, *DataModel.Meta.Image);
-		ImageTexture = ImportOrReimportTexture((bIsReimporting && (ExistingAtlasTextureName == DataModel.Meta.Image)) ? ExistingAtlasTexture : nullptr, SourceSheetImageFilename, TexturesSubPath);
+		const FString SourceAtlasTextureFilename = FPaths::Combine(*CurrentSourcePath, *DataModel.Meta.Image);
+		ImageTexture = ImportOrReimportTexture((bIsReimporting && (ExistingAtlasTextureName == DataModel.Meta.Image)) ? ExistingAtlasTexture : nullptr, SourceAtlasTextureFilename, TexturesSubPath);
 		if (ImageTexture == nullptr)
 		{
-			UE_LOG(LogVaTexAtlasEditor, Warning, TEXT("Failed to import atlas image '%s'."), *SourceSheetImageFilename);
+			UE_LOG(LogVaTexAtlasEditor, Warning, TEXT("Failed to import atlas image '%s'."), *SourceAtlasTextureFilename);
 		}
 
 		// Load parent material for frames
@@ -116,6 +116,7 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 		for (int32 i = 0; i < DataModel.Frames.Num(); i++)
 		{
 			auto Frame = DataModel.Frames[i];
+			const FString FrameAssetName = BuildFrameName(NameForErrors, Frame.Filename);
 
 			GWarn->StatusUpdate(i, DataModel.Frames.Num(), LOCTEXT("VtaTextureAtlasImportFactory_ImportingFrames", "Importing Atlas Frame"));
 
@@ -152,7 +153,7 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 			// Check we should create new one
 			if (TargetFrame == nullptr)
 			{
-				TargetFrame = CastChecked<UMaterialInstanceConstant>(CreateNewAsset(UMaterialInstanceConstant::StaticClass(), FramesSubPath, Frame.Filename, Flags));
+				TargetFrame = CastChecked<UMaterialInstanceConstant>(CreateNewAsset(UMaterialInstanceConstant::StaticClass(), FramesSubPath, FrameAssetName, Flags));
 			}
 
 			// Fill parameters for frame
@@ -290,6 +291,11 @@ UTexture2D* UVtaTextureAtlasImportFactory::ImportOrReimportTexture(UTexture2D* E
 	}
 
 	return ResultTexture;
+}
+
+FString UVtaTextureAtlasImportFactory::BuildFrameName(const FString& AtlasName, const FString& FrameName)
+{
+	return TEXT("MIA_") + AtlasName + TEXT("_") + FrameName;
 }
 
 
