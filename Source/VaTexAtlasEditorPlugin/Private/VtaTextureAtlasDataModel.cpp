@@ -249,11 +249,19 @@ void FVtaDataFile::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& Na
 		VTA_IMPORT_ERROR(TEXT("JSON exported from TexturePacker in file '%s' has no meta."), *NameForErrors);
 		bSuccessfullyParsed = false;
 	}
-
-	// Load the rest of the data if we're doing a full parse
-	if (!bPreparseOnly)
+	
+	// Just check that array field for frames exists
+	if (bPreparseOnly)
 	{
-		// Parse the entities array
+		if (!Tree->HasTypedField<EJson::Array>("frames"))
+		{
+			VTA_IMPORT_ERROR(TEXT("JSON exported from TexturePacker in file '%s' has no frames array."), *NameForErrors);
+			bSuccessfullyParsed = false;
+		}
+	}
+	else
+	{
+		// Load the rest of the data if we're doing a full parse
 		const TArray<TSharedPtr<FJsonValue>>* FramesDescriptors;
 		if (Tree->TryGetArrayField(TEXT("frames"), FramesDescriptors))
 		{
