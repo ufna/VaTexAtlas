@@ -7,8 +7,8 @@
 	"CreatedBy" : "Vladimir Alyamkin",
 	"CreatedByURL" : "http://alyamkin.com",
 	"EngineVersion" : "4.10.0",
-	"Description" : "",
-	"Category" : "Materials",
+	"Description" : "Simple way to use texture atlases for Unreal Engine 4 UMG",
+	"Category" : "UI",
 	"EnabledByDefault" : true,
 	"CanContainContent" : true,
 
