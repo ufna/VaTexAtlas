@@ -5,11 +5,9 @@ Welcome to the VaTexAtlas source code! VTA is the plugin for [Unreal Engine 4](h
 
 Key features:
 
-* 
-*
-*
+* @TODO
 
-Check the [Wiki](https://dragon.atlassian.net/wiki/display/VTA/) for plugin usage examples and installation notes.
+Check the [Wiki](https://hiazma.atlassian.net/wiki/display/VTA/) for plugin usage examples and installation notes.
 
 Current version: **1.0 RC 1** (UE 4.10-12)
 
