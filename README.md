@@ -1,7 +1,9 @@
 VaTexAtlas
 ==========
 
-Welcome to the VaTexAtlas source code! VTA is the plugin for [Unreal Engine 4](https://www.unrealengine.com/) that makes texture atlases simpler to use with UMG system.
+Welcome to the VaTexAtlas source code!
+
+VTA is the plugin for [Unreal Engine 4](https://www.unrealengine.com/) that makes texture atlases simpler to use with UMG system.
 
 Key features:
 
