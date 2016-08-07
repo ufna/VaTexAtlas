@@ -3,15 +3,13 @@ VaTexAtlas
 
 Welcome to the VaTexAtlas source code!
 
-VTA is the plugin for [Unreal Engine 4](https://www.unrealengine.com/) that makes texture atlases simpler to use with UMG system.
+VaTexAtlas is the plugin for [Unreal Engine 4](https://www.unrealengine.com/) that makes texture atlases simpler to use with UMG system.
 
-Key features:
-
-* @TODO
+The plugin is designed to work with sprite sheet data exported from [TexturePacker](https://www.codeandweb.com/texturepacker) in **JSON Array** data format.
 
 Check the [Wiki](https://hiazma.atlassian.net/wiki/display/VTA/) for plugin usage examples and installation notes.
 
-Current version: **1.0 RC 1** (UE 4.10-12)
+Current version: **1.0 RC 1** (UE 4.12)
 
 ![SCREENSHOT](SCREENSHOT.jpg)
 
