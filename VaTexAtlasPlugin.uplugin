@@ -11,6 +11,7 @@
 	"Category" : "UI",
 	"EnabledByDefault" : true,
 	"CanContainContent" : true,
+	"MarketplaceURL" : "com.epicgames.launcher://ue/marketplace/content/ebd9356193134578975c8fdfa6878baf",
 
 	"Modules" :
 	[
