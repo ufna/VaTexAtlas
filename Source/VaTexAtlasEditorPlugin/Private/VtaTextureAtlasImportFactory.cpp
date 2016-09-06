@@ -4,6 +4,7 @@
 #include "VtaTextureAtlasDataModel.h"
 
 #include "PackageTools.h"
+#include "Runtime/Launch/Resources/Version.h"
 
 #define LOCTEXT_NAMESPACE "VtaEditorPlugin"
 
@@ -57,7 +58,9 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 
 	FAssetToolsModule& AssetToolsModule = FModuleManager::GetModuleChecked<FAssetToolsModule>("AssetTools");
 
+#if ENGINE_MINOR_VERSION <= 12
 	const FString CurrentFilename = UFactory::GetCurrentFilename();
+#endif
 	FString CurrentSourcePath;
 	FString FilenameNoExtension;
 	FString UnusedExtension;
