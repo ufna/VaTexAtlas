@@ -99,6 +99,9 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 		Result = NewObject<UVtaTextureAtlas>(InParent, InName, Flags);
 		Result->Modify();
 
+		// Save filename paths
+		Result->AssetImportData->Update(CurrentFilename);
+
 		// Cache data for debug
 		Result->ImportedData = DataModel;
 
