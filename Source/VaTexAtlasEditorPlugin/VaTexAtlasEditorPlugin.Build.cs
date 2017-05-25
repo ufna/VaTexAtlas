@@ -6,7 +6,7 @@ namespace UnrealBuildTool.Rules
 {
 	public class VaTexAtlasEditorPlugin : ModuleRules
 	{
-		public VaTexAtlasEditorPlugin(TargetInfo Target)
+		public VaTexAtlasEditorPlugin(ReadOnlyTargetRules Target) : base(Target)
 		{
 			PublicIncludePaths.AddRange(
 			new string[] {
