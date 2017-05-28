@@ -6,7 +6,7 @@
 	"VersionName" : "1.0-r1",
 	"CreatedBy" : "Vladimir Alyamkin",
 	"CreatedByURL" : "http://alyamkin.com",
-	"EngineVersion" : "4.12.0",
+	"EngineVersion" : "4.16.0",
 	"Description" : "Simple way to use texture atlases for Unreal Engine 4 UMG",
 	"Category" : "UI",
 	"EnabledByDefault" : true,
