@@ -5,6 +5,7 @@
 
 #include "PackageTools.h"
 #include "Runtime/Launch/Resources/Version.h"
+#include "IAssetTools.h"
 
 #define LOCTEXT_NAMESPACE "VtaEditorPlugin"
 
