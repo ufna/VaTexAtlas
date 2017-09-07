@@ -29,14 +29,16 @@ namespace UnrealBuildTool.Rules
 					"Engine",
                     "Json",
                     "UnrealEd",
-					"ContentBrowser"
+					"ContentBrowser",
+					"VaTexAtlasPlugin"
 					// ... add other public dependencies that you statically link with here ...
 				});
 
 			PrivateDependencyModuleNames.AddRange(
 				new string[]
 				{
-					"AssetTools"
+					"AssetTools",
+					"Settings"
 					// ...
 				});
 

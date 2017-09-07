@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include "VtaSlateTexture.h"
+#include "VtaTextureAtlas.h"
+
 #include "VtaTextureAtlasImportFactory.generated.h"
 
 /**
@@ -27,15 +30,17 @@ protected:
 	static UTexture2D* ImportOrReimportTexture(UTexture2D* ExistingTexture, const FString& SourceFilename, const FString& TargetSubPath);
 
 	static FString BuildFrameName(const FString& AtlasName, const FString& FrameName);
+	static FString BuildSlateTextureName(const FString& AtlasName, const FString& FrameName);
 
 
 	//////////////////////////////////////////////////////////////////////////
 	// Reimport (used by derived class to provide existing data)
 
 protected:
-	void SetReimportData(const TArray<FString>& ExistingFrameNames, const TArray< TAssetPtr<class UMaterialInstanceConstant> >& ExistingFrameAssetPtrs);
+	void SetReimportData(UVtaTextureAtlas* TextureAtlas);
 	void ResetImportData();
 	UMaterialInstanceConstant* FindExistingFrame(const FString& Name);
+	UVtaSlateTexture* FindExistingSlateTexture(const FString& Name);
 
 protected:
 	bool bIsReimporting;
@@ -48,5 +53,8 @@ protected:
 
 	/** Map of a frame name (as seen in the importer) -> UMaterialInstanceConstant */
 	TMap<FString, UMaterialInstanceConstant*> ExistingFrames;
+	
+	/** Map of a slate texture name (as seen in the importer) -> UVtaSlateTexture */
+	TMap<FString, UVtaSlateTexture*> ExistingSlateTextures;
 
 };

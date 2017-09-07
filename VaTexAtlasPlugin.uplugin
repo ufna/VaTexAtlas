@@ -16,6 +16,11 @@
 	"Modules" :
 	[
 		{
+			"Name" : "VaTexAtlasPlugin",
+			"Type" : "Runtime",
+			"LoadingPhase": "PreDefault"
+		},
+		{
 			"Name": "VaTexAtlasEditorPlugin",
 			"Type": "Editor",
 			"LoadingPhase": "Default"

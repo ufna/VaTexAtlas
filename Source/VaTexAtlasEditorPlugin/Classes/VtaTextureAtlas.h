@@ -3,6 +3,8 @@
 #pragma once
 
 #include "VtaTextureAtlasDataModel.h"
+#include "VtaSlateTexture.h"
+
 #include "VtaTextureAtlas.generated.h"
 
 UCLASS(BlueprintType, meta = (DisplayThumbnail = "true"))
@@ -19,10 +21,14 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	TArray<FString> FrameNames;
 
-	/** */
+	/** Material instances collection */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	TArray< TAssetPtr<class UMaterialInstanceConstant> > Frames;
 
+	/** Slate textures collection */
+	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
+	TArray< TAssetPtr<class UVtaSlateTexture> > SlateTextures;
+	
 	/** The name of the atlas texture during import */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	FString TextureName;

@@ -49,6 +49,7 @@ void UVtaTextureAtlas::EmptyData()
 
 	FrameNames.Empty();
 	Frames.Empty();
+	SlateTextures.Empty();
 
 	TextureName = FString();
 
