@@ -53,6 +53,8 @@ bool UVtaTextureAtlasImportFactory::FactoryCanImport(const FString& Filename)
 
 UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObject* InParent, FName InName, EObjectFlags Flags, UObject* Context, const TCHAR* Type, const TCHAR*& Buffer, const TCHAR* BufferEnd, FFeedbackContext* Warn)
 {
+	auto Settings = GetMutableDefault<UVtaEditorPluginSettings>();
+	
 	Flags |= RF_Transactional;
 
 	FEditorDelegates::OnAssetPreImport.Broadcast(this, InClass, InParent, InName, Type);
@@ -124,6 +126,7 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 		{
 			auto Frame = DataModel.Frames[i];
 			const FString FrameAssetName = BuildFrameName(NameForErrors, Frame.Filename);
+			const FString SlateTextureAssetName = BuildSlateTextureName(NameForErrors, Frame.Filename);
 
 			GWarn->StatusUpdate(i, DataModel.Frames.Num(), LOCTEXT("VtaTextureAtlasImportFactory_ImportingFrames", "Importing Atlas Frame"));
 
@@ -142,6 +145,7 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 
 			// Create a frame in the package
 			UMaterialInstanceConstant* TargetFrame = nullptr;
+			UVtaSlateTexture* TargetSlateTexture = nullptr;
 
 			// Check we have existing frame asset
 			if (bIsReimporting)
@@ -155,26 +159,61 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 				{
 					UE_LOG(LogVaTexAtlasEditor, Error, TEXT("Failed to load existing frame: '%s'"), *Frame.Filename);
 				}
+				
+				TargetSlateTexture = FindExistingSlateTexture(Frame.Filename);
+				if (TargetSlateTexture)
+				{
+					TargetSlateTexture->Modify();
+				}
+				else
+				{
+					UE_LOG(LogVaTexAtlasEditor, Error, TEXT("Failed to load existing slate texture: '%s'"), *Frame.Filename);
+				}
 			}
 			
 			// Check we should create new one
-			if (TargetFrame == nullptr)
+			if (TargetFrame == nullptr && Settings->bGenerateMaterialInstances)
 			{
 				TargetFrame = CastChecked<UMaterialInstanceConstant>(CreateNewAsset(UMaterialInstanceConstant::StaticClass(), FramesSubPath, FrameAssetName, Flags));
 			}
+			
+			if (TargetSlateTexture == nullptr && Settings->bGenerateSlateTextures)
+			{
+				TargetSlateTexture = CastChecked<UVtaSlateTexture>(CreateNewAsset(UVtaSlateTexture::StaticClass(), FramesSubPath, SlateTextureAssetName, Flags));
+			}
 
-			// Fill parameters for frame
-			TargetFrame->SetParentEditorOnly(FrameMaterial);
-			TargetFrame->SetTextureParameterValueEditorOnly(TEXT("Atlas"), ImageTexture);
-			TargetFrame->SetVectorParameterValueEditorOnly(TEXT("FrameUV"), FrameUVs);
-
-			// Make sure that changes are applied to material instance
-			FPropertyChangedEvent FinalRebuildFrameSet(nullptr, EPropertyChangeType::ValueSet);
-			TargetFrame->PostEditChangeProperty(FinalRebuildFrameSet);
-
+			if (TargetFrame)
+			{
+				// Fill parameters for frame
+				TargetFrame->SetParentEditorOnly(FrameMaterial);
+				TargetFrame->SetTextureParameterValueEditorOnly(TEXT("Atlas"), ImageTexture);
+				TargetFrame->SetVectorParameterValueEditorOnly(TEXT("FrameUV"), FrameUVs);
+				
+				// Make sure that changes are applied to assets
+				FPropertyChangedEvent FinalRebuildFrameSet(nullptr, EPropertyChangeType::ValueSet);
+				TargetFrame->PostEditChangeProperty(FinalRebuildFrameSet);
+				
+				// Set frame to Atlas
+				Result->Frames.Add(TargetFrame);
+			}
+			
+			if (TargetSlateTexture)
+			{
+				// Fill parameters for slate texture
+				TargetSlateTexture->AtlasTexture = ImageTexture;
+				TargetSlateTexture->StartUV = FVector2D(FrameUVs.R, FrameUVs.B);
+				TargetSlateTexture->SizeUV = FVector2D(FrameUVs.G - FrameUVs.R, FrameUVs.A - FrameUVs.B);
+				
+				// Make sure that changes are applied to assets
+				FPropertyChangedEvent FinalRebuildSlateTextureSet(nullptr, EPropertyChangeType::ValueSet);
+				TargetSlateTexture->PostEditChangeProperty(FinalRebuildSlateTextureSet);
+				
+				// Set slate texture to Atlas
+				Result->SlateTextures.Add(TargetSlateTexture);
+			}
 			// Set frame to Atlas
 			Result->FrameNames.Add(Frame.Filename);
-			Result->Frames.Add(TargetFrame);
+			
 		}
 
 		// Set data to atlas asset
@@ -305,32 +344,46 @@ FString UVtaTextureAtlasImportFactory::BuildFrameName(const FString& AtlasName, 
 	return TEXT("MIA_") + AtlasName + TEXT("_") + FrameName;
 }
 
+FString UVtaTextureAtlasImportFactory::BuildSlateTextureName(const FString& AtlasName, const FString& FrameName)
+{
+	return TEXT("ST_") + AtlasName + TEXT("_") + FrameName;
+}
+
 
 //////////////////////////////////////////////////////////////////////////
 // Reimport (used by derived class to provide existing data)
 
-void UVtaTextureAtlasImportFactory::SetReimportData(const TArray<FString>& ExistingAtlasNames, const TArray< TAssetPtr<class UMaterialInstanceConstant> >& ExistingAtlasAssetPtrs)
+void UVtaTextureAtlasImportFactory::SetReimportData(UVtaTextureAtlas* TextureAtlas)
 {
-	check(ExistingAtlasNames.Num() == ExistingAtlasAssetPtrs.Num());
-
-	if (ExistingAtlasNames.Num() == ExistingAtlasAssetPtrs.Num())
+	int32 i = 0;
+	for (const FString& AssetName : TextureAtlas->FrameNames)
 	{
-		for (int i = 0; i < ExistingAtlasAssetPtrs.Num(); ++i)
+		UMaterialInstanceConstant* LoadedFrame = nullptr;
+		UVtaSlateTexture* LoadedSlateTexture = nullptr;
+
+		if (TextureAtlas->Frames.Num() > i)
 		{
-			const TAssetPtr<class UMaterialInstanceConstant> FrameAssetPtr = ExistingAtlasAssetPtrs[i];
-			FStringAssetReference FrameStringRef = FrameAssetPtr.ToStringReference();
-
-			if (!FrameStringRef.ToString().IsEmpty())
-			{
-				UMaterialInstanceConstant* LoadedFrame = Cast<UMaterialInstanceConstant>(StaticLoadObject(UMaterialInstanceConstant::StaticClass(), nullptr, *FrameStringRef.ToString(), nullptr, LOAD_None, nullptr));
-				if (LoadedFrame != nullptr)
-				{
-					ExistingFrames.Add(ExistingAtlasNames[i], LoadedFrame);
-				}
-			}
+			LoadedFrame = Cast<UMaterialInstanceConstant>(StaticLoadObject(UMaterialInstanceConstant::StaticClass(), nullptr, *TextureAtlas->Frames[i].ToStringReference().ToString(), nullptr, LOAD_None, nullptr));
 		}
+		
+		if (TextureAtlas->SlateTextures.Num() > i)
+		{
+			LoadedSlateTexture = Cast<UVtaSlateTexture>(StaticLoadObject(UVtaSlateTexture::StaticClass(), nullptr, *TextureAtlas->SlateTextures[i].ToStringReference().ToString(), nullptr, LOAD_None, nullptr));
+		}
+		
+		if (LoadedFrame != nullptr)
+		{
+			ExistingFrames.Add(AssetName, LoadedFrame);
+		}
+		
+		if (LoadedSlateTexture != nullptr)
+		{
+			ExistingSlateTextures.Add(AssetName, LoadedSlateTexture);
+		}
+		
+		++i;
 	}
-
+	
 	bIsReimporting = true;
 }
 
@@ -342,11 +395,17 @@ void UVtaTextureAtlasImportFactory::ResetImportData()
 	ExistingAtlasTexture = nullptr;
 
 	ExistingFrames.Empty();
+	ExistingSlateTextures.Empty();
 }
 
 UMaterialInstanceConstant* UVtaTextureAtlasImportFactory::FindExistingFrame(const FString& Name)
 {
 	return ExistingFrames.FindRef(Name);
+}
+
+UVtaSlateTexture* UVtaTextureAtlasImportFactory::FindExistingSlateTexture(const FString& Name)
+{
+	return ExistingSlateTextures.FindRef(Name);
 }
 
 

@@ -62,7 +62,7 @@ EReimportResult::Type UVtaTextureAtlasReimportFactory::Reimport(UObject* Obj)
 	}
 
 	// Configure the importer with the reimport settings
-	SetReimportData(TextureAtlas->FrameNames, TextureAtlas->Frames);
+	SetReimportData(TextureAtlas);
 	ExistingAtlasTextureName = TextureAtlas->TextureName;
 	ExistingAtlasTexture = TextureAtlas->Texture;
 
