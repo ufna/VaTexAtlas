@@ -14,6 +14,7 @@ struct FVtaJsonImportable
 
 public:
 	virtual bool ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent) PURE_VIRTUAL(FVtaJsonImportable::ParseFromJSON, return false;);
+	virtual ~FVtaJsonImportable() {};
 
 };
 
