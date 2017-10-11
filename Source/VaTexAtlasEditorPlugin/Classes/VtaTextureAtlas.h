@@ -36,6 +36,10 @@ public:
 	/** The asset that was created for TextureName */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	UTexture2D* Texture;
+	
+	/**  */
+	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
+	UDataTable* Table;
 
 #if WITH_EDITORONLY_DATA
 	// Import data for this 

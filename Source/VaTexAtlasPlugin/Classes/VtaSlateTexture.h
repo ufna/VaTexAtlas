@@ -12,15 +12,15 @@ class VATEXATLASPLUGIN_API UVtaSlateTexture : public UObject, public ISlateTextu
 
 public:
 	/** The texture pointer for the Atlas */
-	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "VaTexAtlas")
 	UTexture* AtlasTexture;
 	
 	/** The region start position in UVs */
-	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "VaTexAtlas")
 	FVector2D StartUV;
 	
 	/** The region size in UVs */
-	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "VaTexAtlas")
 	FVector2D SizeUV;
 	
 public:

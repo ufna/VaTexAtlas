@@ -26,6 +26,8 @@ UVtaTextureAtlasImportFactory::UVtaTextureAtlasImportFactory(const class FObject
 
 	Formats.Add(TEXT("vta;VaTexAtlas data file"));
 	Formats.Add(TEXT("json;VaTexAtlas JSON file"));
+	
+	ExistingTable = nullptr;
 }
 
 FText UVtaTextureAtlasImportFactory::GetToolTip() const
@@ -213,7 +215,6 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 			}
 			// Set frame to Atlas
 			Result->FrameNames.Add(Frame.Filename);
-			
 		}
 
 		// Set data to atlas asset
@@ -223,7 +224,9 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 
 		GWarn->EndSlowTask();
 	}
-
+	
+	ImportOrReimportDataTable(Cast<UVtaTextureAtlas>(Result), LongPackagePath, InName.ToString(), Flags);
+	
 	FEditorDelegates::OnAssetPostImport.Broadcast(this, Result);
 
 	// Reset the importer to ensure that no leftover data can contaminate future imports
@@ -339,6 +342,73 @@ UTexture2D* UVtaTextureAtlasImportFactory::ImportOrReimportTexture(UTexture2D* E
 	return ResultTexture;
 }
 
+void UVtaTextureAtlasImportFactory::ImportOrReimportDataTable(UVtaTextureAtlas* TextureAtlas, const FString& TargetPath, const FString& DesiredName, EObjectFlags Flags)
+{
+	if (TextureAtlas)
+	{
+		TextureAtlas->Modify();
+
+		TextureAtlas->Table = ExistingTable;
+		
+		UDataTable* DataTable = nullptr;
+		if (TextureAtlas->Table != nullptr)
+		{
+			DataTable = TextureAtlas->Table;
+			DataTable->EmptyTable();
+		}
+		else
+		{
+			DataTable = CastChecked<UDataTable>(CreateNewAsset(UDataTable::StaticClass(), TargetPath, DesiredName + TEXT("_DataTable"), Flags));
+			DataTable->RowStruct = FVtaAsset::StaticStruct();
+			
+			TextureAtlas->Table = DataTable;
+			TextureAtlas->PostEditChange();
+		}
+		
+		DataTable->Modify();
+		
+		TSet<FString> ExName;
+		
+		for(const FString& Name : TextureAtlas->FrameNames)
+		{
+			FVtaAsset Asset;
+			
+			Asset.Material = FindMaterialByFrameName(Name, TextureAtlas->Frames);
+			Asset.SlateTexture = FindSlateTextureByFrameName(Name, TextureAtlas->SlateTextures);
+			
+			int32 Position = INDEX_NONE;
+			Name.FindLastChar(TEXT('.'), Position);
+			
+			FString RowName = (Position < 1) ? Name : Name.Left(Position);
+			RowName = TEXT("_") + PackageTools::SanitizePackageName(RowName);
+			
+			while(RowName.FindChar(TEXT('_'), Position))
+			{
+				RowName.RemoveAt(Position);
+				if (Position < RowName.Len())
+				{
+					RowName.InsertAt(Position, FChar::ToUpper(RowName[Position]));
+					RowName.RemoveAt(Position + 1);
+				}
+			}
+			
+			FString OriginalRowName = RowName;
+			
+			int32 i = 0;
+			while(ExName.Contains(RowName))
+			{
+				RowName = FString::Printf(TEXT("%s%d"), *OriginalRowName, ++i);
+			}
+			
+			ExName.Add(RowName);
+			DataTable->AddRow(FName(*RowName), Asset);
+		}
+		
+		DataTable->PostEditChange();
+	}
+	
+}
+
 FString UVtaTextureAtlasImportFactory::BuildFrameName(const FString& AtlasName, const FString& FrameName)
 {
 	return TEXT("MIA_") + AtlasName + TEXT("_") + FrameName;
@@ -349,39 +419,27 @@ FString UVtaTextureAtlasImportFactory::BuildSlateTextureName(const FString& Atla
 	return TEXT("ST_") + AtlasName + TEXT("_") + FrameName;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 // Reimport (used by derived class to provide existing data)
 
 void UVtaTextureAtlasImportFactory::SetReimportData(UVtaTextureAtlas* TextureAtlas)
 {
-	int32 i = 0;
-	for (const FString& AssetName : TextureAtlas->FrameNames)
+	ExistingTable = TextureAtlas->Table;
+	
+	for (const FString& Name : TextureAtlas->FrameNames)
 	{
-		UMaterialInstanceConstant* LoadedFrame = nullptr;
-		UVtaSlateTexture* LoadedSlateTexture = nullptr;
-
-		if (TextureAtlas->Frames.Num() > i)
-		{
-			LoadedFrame = Cast<UMaterialInstanceConstant>(StaticLoadObject(UMaterialInstanceConstant::StaticClass(), nullptr, *TextureAtlas->Frames[i].ToStringReference().ToString(), nullptr, LOAD_None, nullptr));
-		}
-		
-		if (TextureAtlas->SlateTextures.Num() > i)
-		{
-			LoadedSlateTexture = Cast<UVtaSlateTexture>(StaticLoadObject(UVtaSlateTexture::StaticClass(), nullptr, *TextureAtlas->SlateTextures[i].ToStringReference().ToString(), nullptr, LOAD_None, nullptr));
-		}
+		UMaterialInstanceConstant* LoadedFrame = FindMaterialByFrameName(Name, TextureAtlas->Frames);
+		UVtaSlateTexture* LoadedSlateTexture = FindSlateTextureByFrameName(Name, TextureAtlas->SlateTextures);
 		
 		if (LoadedFrame != nullptr)
 		{
-			ExistingFrames.Add(AssetName, LoadedFrame);
+			ExistingFrames.Add(Name, LoadedFrame);
 		}
 		
 		if (LoadedSlateTexture != nullptr)
 		{
-			ExistingSlateTextures.Add(AssetName, LoadedSlateTexture);
+			ExistingSlateTextures.Add(Name, LoadedSlateTexture);
 		}
-		
-		++i;
 	}
 	
 	bIsReimporting = true;
@@ -396,6 +454,8 @@ void UVtaTextureAtlasImportFactory::ResetImportData()
 
 	ExistingFrames.Empty();
 	ExistingSlateTextures.Empty();
+	
+	ExistingTable = nullptr;
 }
 
 UMaterialInstanceConstant* UVtaTextureAtlasImportFactory::FindExistingFrame(const FString& Name)
@@ -407,6 +467,39 @@ UVtaSlateTexture* UVtaTextureAtlasImportFactory::FindExistingSlateTexture(const 
 {
 	return ExistingSlateTextures.FindRef(Name);
 }
+
+UMaterialInstanceConstant* UVtaTextureAtlasImportFactory::FindMaterialByFrameName(const FString& Name, TArray<TAssetPtr<UMaterialInstanceConstant>> List)
+{
+	FString FindName = PackageTools::SanitizePackageName(Name);
+	
+	for (auto AssetPtr : List)
+	{
+		FString AssetPath = AssetPtr.ToStringReference().GetAssetName();
+		if (AssetPath.Right(FindName.Len()) == FindName)
+		{
+			return Cast<UMaterialInstanceConstant>(StaticLoadObject(UMaterialInstanceConstant::StaticClass(), nullptr, *AssetPtr.ToStringReference().ToString(), nullptr, LOAD_None, nullptr));
+		}
+	}
+	
+	return nullptr;
+}
+
+UVtaSlateTexture* UVtaTextureAtlasImportFactory::FindSlateTextureByFrameName(const FString& Name, TArray<TAssetPtr<UVtaSlateTexture>> List)
+{
+	FString FindName = PackageTools::SanitizePackageName(Name);
+	
+	for (auto AssetPtr : List)
+	{
+		FString AssetPath = AssetPtr.ToStringReference().GetAssetName();
+		if (AssetPath.Right(FindName.Len()) == FindName)
+		{
+			return Cast<UVtaSlateTexture>(StaticLoadObject(UVtaSlateTexture::StaticClass(), nullptr, *AssetPtr.ToStringReference().ToString(), nullptr, LOAD_None, nullptr));
+		}
+	}
+	
+	return nullptr;
+}
+
 
 
 //////////////////////////////////////////////////////////////////////////

@@ -2,6 +2,8 @@
 
 #include "VtaPlugin.h"
 #include "VtaPluginFunctionLibrary.h"
+#include "GameFramework/HUD.h"
+#include "VtaSlateTexture.h"
 
 void UVtaPluginFunctionLibrary::DrawSlateTexture(AHUD* HUD, UVtaSlateTexture* Texture, float ScreenX, float ScreenY, float ScreenW, float ScreenH, float TextureU, float TextureV, float TextureUWidth, float TextureVHeight, FLinearColor TintColor, EBlendMode BlendMode, float Scale, bool bScalePosition, float Rotation, FVector2D RotPivot)
 {
@@ -16,4 +18,9 @@ void UVtaPluginFunctionLibrary::DrawSlateTexture(AHUD* HUD, UVtaSlateTexture* Te
 	}
 }
 
-
+FSlateBrush UVtaPluginFunctionLibrary::CopyBrushWithSlateTexture(UVtaSlateTexture* Texture, const FSlateBrush& SourceBrush)
+{
+	FSlateBrush Result = SourceBrush;
+	Result.SetResourceObject(Texture);	
+	return Result;
+}
