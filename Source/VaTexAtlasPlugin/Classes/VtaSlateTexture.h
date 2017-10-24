@@ -5,7 +5,7 @@
 #include "Slate/SlateTextureAtlasInterface.h"
 #include "VtaSlateTexture.generated.h"
 
-UCLASS(BlueprintType, meta = (DisplayThumbnail = "true"))
+UCLASS(BlueprintType, Blueprintable, meta = (DisplayThumbnail = "true"))
 class VATEXATLASPLUGIN_API UVtaSlateTexture : public UObject, public ISlateTextureAtlasInterface
 {
 	GENERATED_UCLASS_BODY()
