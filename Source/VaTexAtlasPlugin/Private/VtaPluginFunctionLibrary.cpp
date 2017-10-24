@@ -7,15 +7,30 @@
 
 void UVtaPluginFunctionLibrary::DrawSlateTexture(AHUD* HUD, UVtaSlateTexture* Texture, float ScreenX, float ScreenY, float ScreenW, float ScreenH, float TextureU, float TextureV, float TextureUWidth, float TextureVHeight, FLinearColor TintColor, EBlendMode BlendMode, float Scale, bool bScalePosition, float Rotation, FVector2D RotPivot)
 {
-	if (HUD)
+	if (!HUD /*|| !HUD->IsValidLowLevel()*/)
 	{
-		TextureU = Texture->StartUV.X + TextureU * Texture->SizeUV.X;
-		TextureV = Texture->StartUV.Y + TextureV * Texture->SizeUV.Y;
-		TextureUWidth = TextureUWidth * Texture->SizeUV.X;
-		TextureVHeight = TextureVHeight * Texture->SizeUV.Y;
-		
-		HUD->DrawTexture(Texture->AtlasTexture, ScreenX, ScreenY, ScreenW, ScreenH, TextureU, TextureV, TextureUWidth, TextureVHeight, TintColor, BlendMode, Scale, bScalePosition, Rotation, RotPivot);
+		UE_LOG(LogVaTexAtlas, Error, TEXT("%s: HUD is invalid"), *VA_FUNC_LINE);
+		return;
 	}
+	
+	if (!Texture /*|| !Texture->IsValidLowLevel()*/)
+	{
+		UE_LOG(LogVaTexAtlas, Error, TEXT("%s: Texture is invalid"), *VA_FUNC_LINE);
+		return;
+	}
+
+	if (!Texture->AtlasTexture /*|| !Texture->AtlasTexture->IsValidLowLevel()*/)
+	{
+		UE_LOG(LogVaTexAtlas, Error, TEXT("%s: AtlasTexture is invalid"), *VA_FUNC_LINE);
+		return;
+	}
+
+	TextureU = Texture->StartUV.X + TextureU * Texture->SizeUV.X;
+	TextureV = Texture->StartUV.Y + TextureV * Texture->SizeUV.Y;
+	TextureUWidth = TextureUWidth * Texture->SizeUV.X;
+	TextureVHeight = TextureVHeight * Texture->SizeUV.Y;
+		
+	HUD->DrawTexture(Texture->AtlasTexture, ScreenX, ScreenY, ScreenW, ScreenH, TextureU, TextureV, TextureUWidth, TextureVHeight, TintColor, BlendMode, Scale, bScalePosition, Rotation, RotPivot);
 }
 
 FSlateBrush UVtaPluginFunctionLibrary::CopyBrushWithSlateTexture(UVtaSlateTexture* Texture, const FSlateBrush& SourceBrush)
