@@ -369,7 +369,7 @@ void UVtaTextureAtlasImportFactory::ImportOrReimportDataTable(UVtaTextureAtlas* 
 		
 		TSet<FString> ExName;
 		
-		for(const FString& Name : TextureAtlas->FrameNames)
+		for (const FString& Name : TextureAtlas->FrameNames)
 		{
 			FVtaAsset Asset;
 			
@@ -382,7 +382,7 @@ void UVtaTextureAtlasImportFactory::ImportOrReimportDataTable(UVtaTextureAtlas* 
 			FString RowName = (Position < 1) ? Name : Name.Left(Position);
 			RowName = TEXT("_") + PackageTools::SanitizePackageName(RowName);
 			
-			while(RowName.FindChar(TEXT('_'), Position))
+			while (RowName.FindChar(TEXT('_'), Position))
 			{
 				RowName.RemoveAt(Position);
 				if (Position < RowName.Len())
@@ -395,7 +395,7 @@ void UVtaTextureAtlasImportFactory::ImportOrReimportDataTable(UVtaTextureAtlas* 
 			FString OriginalRowName = RowName;
 			
 			int32 i = 0;
-			while(ExName.Contains(RowName))
+			while (ExName.Contains(RowName))
 			{
 				RowName = FString::Printf(TEXT("%s%d"), *OriginalRowName, ++i);
 			}
@@ -473,11 +473,11 @@ UMaterialInstanceConstant* UVtaTextureAtlasImportFactory::FindMaterialByFrameNam
 	FString FindName = PackageTools::SanitizePackageName(Name);
 	for (auto AssetPtr : List)
 	{
-		FString AssetName = AssetPtr.ToStringReference().GetAssetName();
+		FString AssetName = AssetPtr.ToSoftObjectPath().GetAssetName();
 		int32 Position = AssetName.Find(FindName);
 		if (Position != INDEX_NONE)
 		{
-			return Cast<UMaterialInstanceConstant>(StaticLoadObject(UMaterialInstanceConstant::StaticClass(), nullptr, *AssetPtr.ToStringReference().ToString(), nullptr, LOAD_None, nullptr));
+			return Cast<UMaterialInstanceConstant>(StaticLoadObject(UMaterialInstanceConstant::StaticClass(), nullptr, *AssetPtr.ToSoftObjectPath().ToString(), nullptr, LOAD_None, nullptr));
 		}
 	}
 	
@@ -489,11 +489,11 @@ UVtaSlateTexture* UVtaTextureAtlasImportFactory::FindSlateTextureByFrameName(con
 	FString FindName = PackageTools::SanitizePackageName(Name);
 	for (auto AssetPtr : List)
 	{
-		FString AssetName = AssetPtr.ToStringReference().GetAssetName();
+		FString AssetName = AssetPtr.ToSoftObjectPath().GetAssetName();
 		int32 Position = AssetName.Find(FindName);
 		if (Position != INDEX_NONE)
 		{
-			return Cast<UVtaSlateTexture>(StaticLoadObject(UVtaSlateTexture::StaticClass(), nullptr, *AssetPtr.ToStringReference().ToString(), nullptr, LOAD_None, nullptr));
+			return Cast<UVtaSlateTexture>(StaticLoadObject(UVtaSlateTexture::StaticClass(), nullptr, *AssetPtr.ToSoftObjectPath().ToString(), nullptr, LOAD_None, nullptr));
 		}
 	}
 	
