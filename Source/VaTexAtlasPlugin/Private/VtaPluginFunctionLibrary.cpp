@@ -1,7 +1,7 @@
 // Copyright 2015-2017 Mail.Ru Group. All Rights Reserved.
 
-#include "VtaPlugin.h"
 #include "VtaPluginFunctionLibrary.h"
+#include "VtaPlugin.h"
 #include "GameFramework/HUD.h"
 #include "VtaSlateTexture.h"
 

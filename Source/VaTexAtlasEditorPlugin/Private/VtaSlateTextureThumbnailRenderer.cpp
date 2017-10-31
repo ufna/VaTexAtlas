@@ -1,8 +1,7 @@
 // Copyright 2015-2017 Mail.Ru Group. All Rights Reserved.
 
-#include "VtaEditorPlugin.h"
-
 #include "VtaSlateTextureThumbnailRenderer.h"
+#include "VtaEditorPlugin.h"
 #include "VtaSlateTexture.h"
 
 #include "CanvasItem.h"

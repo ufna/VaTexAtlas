@@ -1,10 +1,14 @@
 // Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
 
 #include "VtaEditorPlugin.h"
-#include "ThumbnailRendering/ThumbnailManager.h"
+#include "IVaTexAtlasEditorPlugin.h"
 
+#include "ThumbnailRendering/ThumbnailManager.h"
 #include "ISettingsModule.h"
 
+#include "VtaSlateTexture.h"
+#include "VtaSlateTextureThumbnailRenderer.h"
+#include "VtaEditorPluginSettings.h"
 #include "VtaTextureAtlasAssetTypeActions.h"
 
 #define LOCTEXT_NAMESPACE "VaTexAtlasEditorPlugin"

@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "EditorReimportHandler.h"
+#include "VtaTextureAtlasImportFactory.h"
 #include "VtaTextureAtlasReimportFactory.generated.h"
 
 /**

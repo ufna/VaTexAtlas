@@ -1,7 +1,7 @@
 // Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
 
+#include "VtaTextureAtlasImportFactory.h"
 #include "VtaEditorPlugin.h"
-#include "VtaTextureAtlasDataModel.h"
 
 #include "PackageTools.h"
 #include "Runtime/Launch/Resources/Version.h"

@@ -1,6 +1,6 @@
 // Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
 
-#include "VtaEditorPlugin.h"
+#include "VtaTextureAtlas.h"
 
 UVtaTextureAtlas::UVtaTextureAtlas(const class FObjectInitializer& PCIP)
 	: Super(PCIP)

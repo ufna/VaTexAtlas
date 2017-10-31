@@ -1,7 +1,7 @@
 // Copyright 2015-2017 Mail.Ru Group. All Rights Reserved.
 
-#include "VtaPlugin.h"
 #include "VtaSlateTexture.h"
+#include "VtaPlugin.h"
 
 UVtaSlateTexture::UVtaSlateTexture(const class FObjectInitializer& PCIP)
 : Super(PCIP)
