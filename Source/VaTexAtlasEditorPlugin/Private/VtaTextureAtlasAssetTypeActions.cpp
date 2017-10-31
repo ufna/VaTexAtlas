@@ -1,6 +1,9 @@
 // Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
 
 #include "VtaTextureAtlasAssetTypeActions.h"
+#include "VtaTextureAtlas.h"
+
+#include "EditorFramework/AssetImportData.h"
 
 #define LOCTEXT_NAMESPACE "VtaEditorPlugin"
 
