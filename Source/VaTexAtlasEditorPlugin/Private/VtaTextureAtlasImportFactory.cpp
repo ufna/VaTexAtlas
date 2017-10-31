@@ -473,11 +473,11 @@ UMaterialInstanceConstant* UVtaTextureAtlasImportFactory::FindMaterialByFrameNam
 	FString FindName = PackageTools::SanitizePackageName(Name);
 	for (auto AssetPtr : List)
 	{
-		FString AssetName = AssetPtr.ToSoftObjectPath().GetAssetName();
+		FString AssetName = AssetPtr.ToStringReference().GetAssetName();
 		int32 Position = AssetName.Find(FindName);
 		if (Position != INDEX_NONE)
 		{
-			return Cast<UMaterialInstanceConstant>(StaticLoadObject(UMaterialInstanceConstant::StaticClass(), nullptr, *AssetPtr.ToSoftObjectPath().ToString(), nullptr, LOAD_None, nullptr));
+			return Cast<UMaterialInstanceConstant>(StaticLoadObject(UMaterialInstanceConstant::StaticClass(), nullptr, *AssetPtr.ToStringReference().ToString(), nullptr, LOAD_None, nullptr));
 		}
 	}
 	
@@ -489,11 +489,11 @@ UVtaSlateTexture* UVtaTextureAtlasImportFactory::FindSlateTextureByFrameName(con
 	FString FindName = PackageTools::SanitizePackageName(Name);
 	for (auto AssetPtr : List)
 	{
-		FString AssetName = AssetPtr.ToSoftObjectPath().GetAssetName();
+		FString AssetName = AssetPtr.ToStringReference().GetAssetName();
 		int32 Position = AssetName.Find(FindName);
 		if (Position != INDEX_NONE)
 		{
-			return Cast<UVtaSlateTexture>(StaticLoadObject(UVtaSlateTexture::StaticClass(), nullptr, *AssetPtr.ToSoftObjectPath().ToString(), nullptr, LOAD_None, nullptr));
+			return Cast<UVtaSlateTexture>(StaticLoadObject(UVtaSlateTexture::StaticClass(), nullptr, *AssetPtr.ToStringReference().ToString(), nullptr, LOAD_None, nullptr));
 		}
 	}
 	
