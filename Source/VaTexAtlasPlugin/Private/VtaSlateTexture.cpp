@@ -12,6 +12,11 @@ UVtaSlateTexture::UVtaSlateTexture(const class FObjectInitializer& PCIP)
 	
 }
 
+FVector2D UVtaSlateTexture::GetDimensions() const
+{
+	return GetSlateAtlasData().GetSourceDimensions();
+}
+
 FSlateAtlasData UVtaSlateTexture::GetSlateAtlasData() const
 {
 	return FSlateAtlasData(AtlasTexture, StartUV, SizeUV);
