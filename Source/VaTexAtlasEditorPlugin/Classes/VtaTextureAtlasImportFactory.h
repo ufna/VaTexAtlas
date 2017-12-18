@@ -45,8 +45,8 @@ protected:
 	UMaterialInstanceConstant* FindExistingFrame(const FString& Name);
 	UVtaSlateTexture* FindExistingSlateTexture(const FString& Name);
 	
-	UMaterialInstanceConstant* FindMaterialByFrameName(const FString& Name, TArray<TAssetPtr<UMaterialInstanceConstant>> List);
-	UVtaSlateTexture* FindSlateTextureByFrameName(const FString& Name, TArray<TAssetPtr<UVtaSlateTexture>> List);
+	UMaterialInstanceConstant* FindMaterialByFrameName(const FString& Name, TArray<TSoftObjectPtr<UMaterialInstanceConstant>> List);
+	UVtaSlateTexture* FindSlateTextureByFrameName(const FString& Name, TArray<TSoftObjectPtr<UVtaSlateTexture>> List);
 	
 
 protected:
