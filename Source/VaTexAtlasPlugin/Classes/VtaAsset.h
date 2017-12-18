@@ -16,10 +16,10 @@ public:
 	GENERATED_USTRUCT_BODY()
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "VaTexAtlas")
-	TAssetPtr<UMaterialInstanceConstant> Material;
+	TSoftObjectPtr<UMaterialInstanceConstant> Material;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "VaTexAtlas")
-	TAssetPtr<UVtaSlateTexture> SlateTexture;
+	TSoftObjectPtr<UVtaSlateTexture> SlateTexture;
 	
 	FVtaAsset();
 };

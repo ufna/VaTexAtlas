@@ -23,11 +23,11 @@ public:
 
 	/** Material instances collection */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
-	TArray< TAssetPtr<class UMaterialInstanceConstant> > Frames;
+	TArray< TSoftObjectPtr<class UMaterialInstanceConstant> > Frames;
 
 	/** Slate textures collection */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
-	TArray< TAssetPtr<class UVtaSlateTexture> > SlateTextures;
+	TArray< TSoftObjectPtr<class UVtaSlateTexture> > SlateTextures;
 	
 	/** The name of the atlas texture during import */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
