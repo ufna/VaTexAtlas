@@ -1,9 +1,9 @@
 {
 	"FileVersion" : 3,
-	
+
 	"FriendlyName" : "VaTexAtlas",
 	"Version" : 1,
-	"VersionName" : "1.0-r2",
+	"VersionName" : "1.0-r3",
 	"CreatedBy" : "Vladimir Alyamkin",
 	"CreatedByURL" : "http://alyamkin.com",
 	"EngineVersion" : "4.18.0",

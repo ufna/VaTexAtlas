@@ -23,6 +23,9 @@ public:
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "VaTexAtlas")
 	FVector2D SizeUV;
 	
+	UFUNCTION(BlueprintCallable, Category = "VaTexAtlas")
+	FVector2D GetDimensions() const;
+
 public:
 	/** Return FSlateAtlasData for ISlateTextureAtlasInterface */
 	virtual FSlateAtlasData GetSlateAtlasData() const override;
