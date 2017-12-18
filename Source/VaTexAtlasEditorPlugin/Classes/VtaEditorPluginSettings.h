@@ -17,4 +17,8 @@ public:
 	/** Generate material instances */
 	UPROPERTY(Config, EditAnywhere)
 	bool bGenerateMaterialInstances;
+	
+	/** Generate material instances */
+	UPROPERTY(Config, EditAnywhere)
+	bool bUseMultiAtlas;
 };

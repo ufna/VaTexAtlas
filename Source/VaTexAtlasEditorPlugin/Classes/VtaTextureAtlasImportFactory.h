@@ -31,6 +31,7 @@ protected:
 	static UTexture2D* ImportOrReimportTexture(UTexture2D* ExistingTexture, const FString& SourceFilename, const FString& TargetSubPath);
 	
 	void ImportOrReimportDataTable(UVtaTextureAtlas* TextureAtlas, const FString& TargetPath, const FString& DesiredName, EObjectFlags Flags);
+	void ImportOrReimportMultiAtlasDataTable(const FString& TargetPath, const FString& MultiAtlasName, EObjectFlags Flags);
 	
 	static FString BuildFrameName(const FString& AtlasName, const FString& FrameName);
 	static FString BuildSlateTextureName(const FString& AtlasName, const FString& FrameName);
