@@ -1,7 +1,7 @@
 // Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
 
-#include "VtaEditorPlugin.h"
 #include "VtaTextureAtlasDataModel.h"
+#include "VtaEditorPlugin.h"
 
 #define LOCTEXT_NAMESPACE "VtaEditorPlugin"
 

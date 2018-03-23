@@ -2,8 +2,14 @@
 
 #pragma once
 
+#include "Runtime/Launch/Resources/Version.h"
+
+#if ENGINE_MINOR_VERSION >= 15
+#include "CoreMinimal.h"
+#else
 #include "CoreUObject.h"
 #include "Engine.h"
+#endif
 
 #include "UnrealEd.h"
 
@@ -17,7 +23,4 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogVaTexAtlasEditor, Log, All);
 
-#include "IVaTexAtlasEditorPlugin.h"
-
-#include "VaTexAtlasEditorPluginClasses.h"
 

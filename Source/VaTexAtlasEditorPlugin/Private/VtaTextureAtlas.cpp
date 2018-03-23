@@ -1,6 +1,7 @@
 // Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
 
-#include "VtaEditorPlugin.h"
+#include "VtaTextureAtlas.h"
+#include "EditorFramework/AssetImportData.h"
 
 UVtaTextureAtlas::UVtaTextureAtlas(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
@@ -49,6 +50,7 @@ void UVtaTextureAtlas::EmptyData()
 
 	FrameNames.Empty();
 	Frames.Empty();
+	SlateTextures.Empty();
 
 	TextureName = FString();
 

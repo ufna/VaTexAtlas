@@ -1,7 +1,7 @@
 // Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
 
+#include "VtaTextureAtlasReimportFactory.h"
 #include "VtaEditorPlugin.h"
-#include "VtaTextureAtlasDataModel.h"
 
 #include "PackageTools.h"
 
@@ -22,10 +22,16 @@ bool UVtaTextureAtlasReimportFactory::CanReimport(UObject* Obj, TArray<FString>&
 	UVtaTextureAtlas* TextureAtlas = Cast<UVtaTextureAtlas>(Obj);
 	if (TextureAtlas && TextureAtlas->AssetImportData)
 	{
+		if (OutFilenames.Num() == 0)
+		{
+			UE_LOG(LogVaTexAtlasEditor, Warning, TEXT("Force asset to store filename from previous import"));
+			OutFilenames.Add(TEXT("HORSE FORCE"));
+		}
+
 		TextureAtlas->AssetImportData->ExtractFilenames(OutFilenames);
 		return true;
 	}
-
+	
 	return false;
 }
 
@@ -43,6 +49,7 @@ EReimportResult::Type UVtaTextureAtlasReimportFactory::Reimport(UObject* Obj)
 	UVtaTextureAtlas* TextureAtlas = Cast<UVtaTextureAtlas>(Obj);
 	if (!TextureAtlas)
 	{
+		UE_LOG(LogVaTexAtlasEditor, Error, TEXT("Texture atlas is not valid"));
 		return EReimportResult::Failed;
 	}
 
@@ -50,11 +57,12 @@ EReimportResult::Type UVtaTextureAtlasReimportFactory::Reimport(UObject* Obj)
 	const FString Filename = TextureAtlas->AssetImportData->GetFirstFilename();
 	if (!Filename.Len() || IFileManager::Get().FileSize(*Filename) == INDEX_NONE)
 	{
+		UE_LOG(LogVaTexAtlasEditor, Error, TEXT("Filename is invalid: %s"), *Filename);
 		return EReimportResult::Failed;
 	}
 
 	// Configure the importer with the reimport settings
-	SetReimportData(TextureAtlas->FrameNames, TextureAtlas->Frames);
+	SetReimportData(TextureAtlas);
 	ExistingAtlasTextureName = TextureAtlas->TextureName;
 	ExistingAtlasTexture = TextureAtlas->Texture;
 
