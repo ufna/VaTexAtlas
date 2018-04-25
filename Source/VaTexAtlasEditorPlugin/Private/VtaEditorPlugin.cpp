@@ -10,6 +10,7 @@
 #include "VtaSlateTextureThumbnailRenderer.h"
 #include "VtaEditorPluginSettings.h"
 #include "VtaTextureAtlasAssetTypeActions.h"
+#include "VtaTextureAtlasAssetActions.h"
 
 #define LOCTEXT_NAMESPACE "VaTexAtlasEditorPlugin"
 
@@ -24,6 +25,10 @@ class FVaTexAtlasEditorPlugin : public IVaTexAtlasEditorPlugin
 		TextureAtlasAssetTypeActions = MakeShareable(new FVtaTextureAtlasAssetTypeActions);
 		AssetTools.RegisterAssetTypeActions(TextureAtlasAssetTypeActions.ToSharedRef());
 		
+		/** New texture atlas asset actions */
+		TextureAtlasAssetActions = MakeShareable(new FVtaTextureAtlasAssetActions);
+		AssetTools.RegisterAssetTypeActions(TextureAtlasAssetActions.ToSharedRef());
+
 		// Registration thumbnail renderer for slate texture
 		UThumbnailManager::Get().RegisterCustomRenderer(UVtaSlateTexture::StaticClass(), UVtaSlateTextureThumbnailRenderer::StaticClass());
 		
@@ -65,6 +70,7 @@ class FVaTexAtlasEditorPlugin : public IVaTexAtlasEditorPlugin
 private:
 	/** Asset type action */
 	TSharedPtr<IAssetTypeActions> TextureAtlasAssetTypeActions;
+	TSharedPtr<IAssetTypeActions> TextureAtlasAssetActions;
 	
 };
 

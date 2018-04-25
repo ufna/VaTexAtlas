@@ -135,7 +135,7 @@ struct FVtaDataFile
 {
 public:
 	GENERATED_USTRUCT_BODY()
-
+		
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	FVtaMeta Meta;
 

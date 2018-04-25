@@ -26,6 +26,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "VaTexAtlas")
 	FVector2D GetDimensions() const;
 
+	/** Returns new slate texture with part of given slate texture*/
+	UFUNCTION(BlueprintCallable, Category = "VaTexAtlas")
+	UVtaSlateTexture* CreateRegion(const FMargin& Margin);
+
 public:
 	/** Return FSlateAtlasData for ISlateTextureAtlasInterface */
 	virtual FSlateAtlasData GetSlateAtlasData() const override;
