@@ -3,10 +3,10 @@
 
 	"FriendlyName" : "VaTexAtlas",
 	"Version" : 1,
-	"VersionName" : "1.0-r3",
+	"VersionName" : "1.0-r4",
 	"CreatedBy" : "Vladimir Alyamkin",
 	"CreatedByURL" : "http://alyamkin.com",
-	"EngineVersion" : "4.18.0",
+	"EngineVersion" : "4.19.0",
 	"Description" : "Simple way to use texture atlases for Unreal Engine 4 UMG",
 	"Category" : "UI",
 	"EnabledByDefault" : true,
