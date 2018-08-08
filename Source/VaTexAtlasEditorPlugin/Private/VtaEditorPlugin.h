@@ -11,8 +11,6 @@
 #include "Engine.h"
 #endif
 
-#include "UnrealEd.h"
-
 #include "AssetToolsModule.h"
 #include "AssetRegistryModule.h"
 #include "Json.h"
