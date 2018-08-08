@@ -3,6 +3,7 @@
 #include "VtaTextureAtlasReimportFactory.h"
 #include "VtaEditorPlugin.h"
 
+#include "EditorFramework/AssetImportData.h"
 #include "PackageTools.h"
 
 #define LOCTEXT_NAMESPACE "VtaEditorPlugin"
