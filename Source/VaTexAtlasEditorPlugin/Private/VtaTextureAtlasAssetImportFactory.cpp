@@ -15,6 +15,9 @@
 #include "Misc/FileHelper.h"
 #include "HAL/FileManager.h"
 
+#include "Widgets/Input/SComboBox.h"
+#include "Widgets/Input/SCheckBox.h"
+
 #define LOCTEXT_NAMESPACE "VtaEditorPlugin"
 
 class FVtaTextureAtlasAssetImportUI : public TSharedFromThis<FVtaTextureAtlasAssetImportUI>
