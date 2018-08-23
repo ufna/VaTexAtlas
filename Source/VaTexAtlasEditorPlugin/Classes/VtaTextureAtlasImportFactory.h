@@ -6,6 +6,8 @@
 #include "VtaAsset.h"
 #include "VtaTextureAtlas.h"
 
+#include "Factories/Factory.h"
+
 #include "VtaTextureAtlasImportFactory.generated.h"
 
 /**

@@ -5,6 +5,8 @@
 #include "VtaTextureAtlasDataModel.h"
 #include "VtaSlateTexture.h"
 
+#include "Engine/DataTable.h"
+
 #include "VtaTextureAtlas.generated.h"
 
 UCLASS(BlueprintType, meta = (DisplayThumbnail = "true"))

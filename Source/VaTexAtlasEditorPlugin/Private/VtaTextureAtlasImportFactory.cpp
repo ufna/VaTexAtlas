@@ -4,6 +4,9 @@
 #include "VtaEditorPluginSettings.h"
 #include "VtaEditorPlugin.h"
 
+#include "Editor.h"
+#include "EditorReimportHandler.h"
+#include "EditorFramework/AssetImportData.h"
 #include "PackageTools.h"
 #include "Runtime/Launch/Resources/Version.h"
 #include "IAssetTools.h"

@@ -3,8 +3,9 @@
 #pragma once
 
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "SlateBrush.h"
+#include "Styling/SlateBrush.h"
 #include "Engine/EngineTypes.h"
+
 #include "VtaPluginFunctionLibrary.generated.h"
 
 UCLASS()

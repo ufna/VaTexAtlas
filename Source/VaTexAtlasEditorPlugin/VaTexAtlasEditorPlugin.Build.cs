@@ -17,8 +17,6 @@ namespace UnrealBuildTool.Rules
 
 			PrivateIncludePaths.AddRange(
 				new string[] {
-					"AssetTools",
-					"AssetRegistry",
 					"VaTexAtlasEditorPlugin/Private",
 					// ... add other private include paths required here ...
 				});
@@ -32,7 +30,7 @@ namespace UnrealBuildTool.Rules
                     "Json",
                     "UnrealEd",
 					"ContentBrowser",
-					"VaTexAtlasPlugin"
+                    "VaTexAtlasPlugin"
 					// ... add other public dependencies that you statically link with here ...
 				});
 
