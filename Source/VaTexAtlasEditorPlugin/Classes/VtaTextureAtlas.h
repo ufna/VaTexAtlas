@@ -10,7 +10,7 @@
 #include "VtaTextureAtlas.generated.h"
 
 UCLASS(BlueprintType, meta = (DisplayThumbnail = "true"))
-class VATEXATLASEDITORPLUGIN_API UVtaTextureAtlas : public UObject
+class VATEXATLASEDITORPLUGIN_API UVtaTextureAtlas: public UObject
 {
 	GENERATED_UCLASS_BODY()
 
