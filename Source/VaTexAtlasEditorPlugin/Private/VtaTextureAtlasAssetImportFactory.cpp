@@ -14,6 +14,7 @@
 #include "Misc/Paths.h"
 #include "Misc/FileHelper.h"
 #include "HAL/FileManager.h"
+#include "EditorFramework/AssetImportData.h"
 
 #include "Widgets/Input/SComboBox.h"
 #include "Widgets/Input/SCheckBox.h"
