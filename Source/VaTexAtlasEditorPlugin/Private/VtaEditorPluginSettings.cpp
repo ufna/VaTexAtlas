@@ -7,6 +7,7 @@ UVtaEditorPluginSettings::UVtaEditorPluginSettings(const FObjectInitializer& Obj
 , bGenerateSlateTextures(true)
 , bGenerateMaterialInstances(false)
 , bUseMultiAtlas(false)
+, bUseNewAtlasAsset(true)
 {
 
 }
