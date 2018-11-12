@@ -32,7 +32,7 @@ protected:
 	static UTexture2D* ImportTexture(const FString& SourceFilename, const FString& TargetSubPath);
 	static UTexture2D* ImportOrReimportTexture(UTexture2D* ExistingTexture, const FString& SourceFilename, const FString& TargetSubPath);
 	
-	void ImportOrReimportDataTable(UVtaTextureAtlas* TextureAtlas, const FString& TargetPath, const FString& DesiredName, EObjectFlags Flags);
+	void ImportOrReimportDataTable(UVtaTextureAtlas* TextureAtlas, const FString& TargetPath, const FString& DesiredName, EObjectFlags Flags, bool bUseExistingTable = true);
 	void ImportOrReimportMultiAtlasDataTable(const FString& TargetPath, const FString& MultiAtlasName, EObjectFlags Flags);
 	
 	static FString BuildFrameName(const FString& AtlasName, const FString& FrameName);
@@ -42,6 +42,7 @@ protected:
 	// Reimport (used by derived class to provide existing data)
 
 protected:
+	void SetMultipackFrames(const FString& Path, const FString& MultuipackName);
 	void SetReimportData(UVtaTextureAtlas* TextureAtlas);
 	void ResetImportData();
 	UMaterialInstanceConstant* FindExistingFrame(const FString& Name);
@@ -50,6 +51,8 @@ protected:
 	UMaterialInstanceConstant* FindMaterialByFrameName(const FString& Name, TArray<TSoftObjectPtr<UMaterialInstanceConstant>> List);
 	UVtaSlateTexture* FindSlateTextureByFrameName(const FString& Name, TArray<TSoftObjectPtr<UVtaSlateTexture>> List);
 	
+	UMaterialInstanceConstant* FindMaterialOnDisk(const FString& Path, const FString& Name);
+	UVtaSlateTexture* FindSlateTextureOnDisk(const FString& Path, const FString& Name);
 
 protected:
 	bool bIsReimporting;
@@ -69,5 +72,8 @@ protected:
 	
 	/** Map of a slate texture name (as seen in the importer) -> UVtaSlateTexture */
 	TMap<FString, UVtaSlateTexture*> ExistingSlateTextures;
+	
+	/** Existing frames in multipack atlases */
+	TMap< FString, UVtaTextureAtlas* > MultipackFrames;
 
 };

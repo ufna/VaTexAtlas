@@ -38,7 +38,11 @@ namespace UnrealBuildTool.Rules
 				new string[]
 				{
 					"AssetTools",
-					"Settings"
+					"Settings",
+                    "InputCore",
+                    "SlateCore",
+                    "Slate",
+                    "EditorStyle"
 					// ...
 				});
 
