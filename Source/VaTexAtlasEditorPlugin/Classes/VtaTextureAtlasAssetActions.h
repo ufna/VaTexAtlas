@@ -1,6 +1,7 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #pragma once
+
 #include "AssetTypeActions_Base.h"
 
 /**
@@ -20,5 +21,4 @@ public:
 	virtual bool IsImportedAsset() const override;
 	virtual void GetResolvedSourceFilePaths(const TArray<UObject*>& TypeAssets, TArray<FString>& OutSourceFilePaths) const override;
 	// End of IAssetTypeActions interface
-
 };

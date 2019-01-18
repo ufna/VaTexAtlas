@@ -1,9 +1,11 @@
-// Copyright 2015-2017 Mail.Ru Group. All Rights Reserved.
+// Copyright 2015-2019 Mail.Ru Group. All Rights Reserved.
 
 #include "VtaPluginFunctionLibrary.h"
+
 #include "VtaPlugin.h"
-#include "GameFramework/HUD.h"
 #include "VtaSlateTexture.h"
+
+#include "GameFramework/HUD.h"
 
 void UVtaPluginFunctionLibrary::DrawSlateTexture(AHUD* HUD, UVtaSlateTexture* Texture, float ScreenX, float ScreenY, float ScreenW, float ScreenH, float TextureU, float TextureV, float TextureUWidth, float TextureVHeight, FLinearColor TintColor, EBlendMode BlendMode, float Scale, bool bScalePosition, float Rotation, FVector2D RotPivot, bool bFlipX, bool bFlipY)
 {
@@ -12,7 +14,7 @@ void UVtaPluginFunctionLibrary::DrawSlateTexture(AHUD* HUD, UVtaSlateTexture* Te
 		UE_LOG(LogVaTexAtlas, Error, TEXT("%s: HUD is invalid"), *VA_FUNC_LINE);
 		return;
 	}
-	
+
 	if (!Texture /*|| !Texture->IsValidLowLevel()*/)
 	{
 		UE_LOG(LogVaTexAtlas, Error, TEXT("%s: Texture is invalid"), *VA_FUNC_LINE);
@@ -29,19 +31,19 @@ void UVtaPluginFunctionLibrary::DrawSlateTexture(AHUD* HUD, UVtaSlateTexture* Te
 	TextureV = Texture->StartUV.Y + TextureV * Texture->SizeUV.Y;
 	TextureUWidth = TextureUWidth * Texture->SizeUV.X;
 	TextureVHeight = TextureVHeight * Texture->SizeUV.Y;
-	
+
 	if (bFlipX)
 	{
 		TextureU += TextureUWidth;
 		TextureUWidth *= -1.f;
 	}
-	
+
 	if (bFlipY)
 	{
 		TextureV += TextureVHeight;
 		TextureVHeight *= -1.f;
 	}
-		
+
 	HUD->DrawTexture(Texture->AtlasTexture, ScreenX, ScreenY, ScreenW, ScreenH, TextureU, TextureV, TextureUWidth, TextureVHeight, TintColor, BlendMode, Scale, bScalePosition, Rotation, RotPivot);
 }
 
@@ -66,9 +68,9 @@ void UVtaPluginFunctionLibrary::DrawSlateTexture9Slice(AHUD* HUD, UVtaSlateTextu
 	}
 
 	// recalculate UV of our texture for the atlas UV coordinates
-	const float TextureULeft = Texture->StartUV.X + TextureU * Texture->SizeUV.X; // the very left U coordinate of our texture
-	const float TextureVTop = Texture->StartUV.Y + TextureV * Texture->SizeUV.Y; // the very top V coordinate of our texture
-	const float TextureURight = TextureULeft + TextureUWidth * Texture->SizeUV.X; // the very right U coordinate of our texture
+	const float TextureULeft = Texture->StartUV.X + TextureU * Texture->SizeUV.X;  // the very left U coordinate of our texture
+	const float TextureVTop = Texture->StartUV.Y + TextureV * Texture->SizeUV.Y;   // the very top V coordinate of our texture
+	const float TextureURight = TextureULeft + TextureUWidth * Texture->SizeUV.X;  // the very right U coordinate of our texture
 	const float TextureVBottom = TextureVTop + TextureVHeight * Texture->SizeUV.Y; // the very bottom V coordinate of our texture
 
 	// texture original size
@@ -87,9 +89,9 @@ void UVtaPluginFunctionLibrary::DrawSlateTexture9Slice(AHUD* HUD, UVtaSlateTextu
 	const FVector2D MinimumSize(OriginalSize.X * (MarginLeft + MarginRight), OriginalSize.Y * (MarginTop + MarginBottom));
 
 	// middle UV coordinates of the quads
-	float MiddleU1 = MarginLeft; // the right border of the left margin
-	float MiddleV1 = MarginTop; // the bottom border of the top margin
-	float MiddleU2 = 1.0f - MarginRight; // the left border of the right margin
+	float MiddleU1 = MarginLeft;		  // the right border of the left margin
+	float MiddleV1 = MarginTop;			  // the bottom border of the top margin
+	float MiddleU2 = 1.0f - MarginRight;  // the left border of the right margin
 	float MiddleV2 = 1.0f - MarginBottom; // the top border of the bottom margin
 
 	// should we skip center parts (if they have zero or negative size)
@@ -214,6 +216,7 @@ void UVtaPluginFunctionLibrary::DrawSlateTexture9Slice(AHUD* HUD, UVtaSlateTextu
 FSlateBrush UVtaPluginFunctionLibrary::CopyBrushWithSlateTexture(UVtaSlateTexture* Texture, const FSlateBrush& SourceBrush)
 {
 	FSlateBrush Result = SourceBrush;
-	Result.SetResourceObject(Texture);	
+	Result.SetResourceObject(Texture);
+
 	return Result;
 }

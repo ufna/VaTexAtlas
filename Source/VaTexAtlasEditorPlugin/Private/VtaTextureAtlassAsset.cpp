@@ -1,22 +1,22 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #include "VtaTextureAtlasAsset.h"
+
 #include "EditorFramework/AssetImportData.h"
 
 UVtaTextureAtlasAsset::UVtaTextureAtlasAsset()
 {
-
 }
 
 #if WITH_EDITORONLY_DATA
 
-UTexture2D* UVtaTextureAtlasAsset::GetTexture(const FString & Name)
+UTexture2D* UVtaTextureAtlasAsset::GetTexture(const FString& Name)
 {
 	auto* Result = Textures.Find(Name);
-	return Result? *Result : nullptr;
+	return Result ? *Result : nullptr;
 }
 
-FVtaAsset* UVtaTextureAtlasAsset::GetFrame(const FString & Name)
+FVtaAsset* UVtaTextureAtlasAsset::GetFrame(const FString& Name)
 {
 	return Frames.Find(Name);
 }

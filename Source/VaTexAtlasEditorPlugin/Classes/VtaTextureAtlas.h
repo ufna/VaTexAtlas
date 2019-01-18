@@ -1,9 +1,9 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #pragma once
 
-#include "VtaTextureAtlasDataModel.h"
 #include "VtaSlateTexture.h"
+#include "VtaTextureAtlasDataModel.h"
 
 #include "Engine/DataTable.h"
 
@@ -25,12 +25,12 @@ public:
 
 	/** Material instances collection */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
-	TArray< TSoftObjectPtr<class UMaterialInstanceConstant> > Frames;
+	TArray<TSoftObjectPtr<class UMaterialInstanceConstant>> Frames;
 
 	/** Slate textures collection */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
-	TArray< TSoftObjectPtr<class UVtaSlateTexture> > SlateTextures;
-	
+	TArray<TSoftObjectPtr<class UVtaSlateTexture>> SlateTextures;
+
 	/** The name of the atlas texture during import */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	FString TextureName;
@@ -38,13 +38,13 @@ public:
 	/** The asset that was created for TextureName */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	UTexture2D* Texture;
-	
+
 	/**  */
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	UDataTable* Table;
 
 #if WITH_EDITORONLY_DATA
-	// Import data for this 
+	// Import data for this
 	UPROPERTY(VisibleAnywhere, Instanced, Category = ImportSettings)
 	class UAssetImportData* AssetImportData;
 
@@ -57,5 +57,4 @@ public:
 
 	/** Empty existing data */
 	void EmptyData();
-
 };

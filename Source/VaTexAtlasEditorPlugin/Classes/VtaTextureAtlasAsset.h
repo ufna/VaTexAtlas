@@ -1,14 +1,17 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #pragma once
-#include "VtaTextureAtlasDataModel.h"
+
 #include "VtaAsset.h"
+#include "VtaTextureAtlasDataModel.h"
+
 #include "VtaTextureAtlasAsset.generated.h"
 
 UCLASS(meta = (DisplayThumbnail = "true"))
-class VATEXATLASEDITORPLUGIN_API UVtaTextureAtlasAsset: public UObject
+class VATEXATLASEDITORPLUGIN_API UVtaTextureAtlasAsset : public UObject
 {
 	GENERATED_BODY()
+
 public:
 	UVtaTextureAtlasAsset();
 
@@ -20,18 +23,18 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Texture Atlas Asset")
 	uint32 bIsMultipack : 1;
-	
+
 	UPROPERTY(VisibleAnywhere, Category = "Texture Atlas Asset")
 	TEnumAsByte<TextureCompressionSettings> TextureCompressionSetting;
-	
+
 	UPROPERTY(VisibleAnywhere, Category = "Texture Atlas Asset")
 	TMap<FString, FVtaDataFile> ImportedData;
 
 	UPROPERTY(VisibleAnywhere, Category = "Texture Atlas Asset")
-	TMap< FString, class UTexture2D* > Textures;
+	TMap<FString, class UTexture2D*> Textures;
 
 	UPROPERTY(VisibleAnywhere, Category = "Texture Atlas Asset")
-	TMap< FString, FVtaAsset > Frames;
+	TMap<FString, FVtaAsset> Frames;
 
 	UPROPERTY(VisibleAnywhere, Category = "Texture Atlas Asset")
 	class UDataTable* DataTable;
@@ -40,7 +43,7 @@ public:
 	FVtaAsset* GetFrame(const FString& Name);
 
 #if WITH_EDITORONLY_DATA
-	// Import data for this 
+	// Import data for this
 	UPROPERTY(VisibleAnywhere, Instanced, Category = ImportSettings)
 	class UAssetImportData* AssetImportData;
 

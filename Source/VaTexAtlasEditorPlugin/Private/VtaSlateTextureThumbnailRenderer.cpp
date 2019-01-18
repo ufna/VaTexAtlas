@@ -1,22 +1,21 @@
-// Copyright 2015-2017 Mail.Ru Group. All Rights Reserved.
+// Copyright 2015-2019 Mail.Ru Group. All Rights Reserved.
 
 #include "VtaSlateTextureThumbnailRenderer.h"
+
 #include "VtaEditorPlugin.h"
 #include "VtaSlateTexture.h"
 
 #include "CanvasItem.h"
+#include "CanvasTypes.h"
 #include "Engine/Engine.h"
 #include "Engine/Texture.h"
 #include "Engine/Texture2D.h"
-#include "ThumbnailRendering/ThumbnailManager.h"
 #include "EngineGlobals.h"
-
-#include "CanvasTypes.h"
+#include "ThumbnailRendering/ThumbnailManager.h"
 
 UVtaSlateTextureThumbnailRenderer::UVtaSlateTextureThumbnailRenderer(const FObjectInitializer& ObjectInitializer)
 	: Super(ObjectInitializer)
 {
-	
 }
 
 void UVtaSlateTextureThumbnailRenderer::GetThumbnailSize(UObject* Object, float Zoom, uint32& OutWidth, uint32& OutHeight) const
@@ -44,7 +43,7 @@ void UVtaSlateTextureThumbnailRenderer::Draw(UObject* Object, int32 X, int32 Y, 
 		if (Texture2D != nullptr)
 		{
 			const bool bUseTranslucentBlend = Texture2D->HasAlphaChannel();
-			
+
 			if (bUseTranslucentBlend)
 			{
 				// If using alpha, draw a checkerboard underneath first.
@@ -52,7 +51,7 @@ void UVtaSlateTextureThumbnailRenderer::Draw(UObject* Object, int32 X, int32 Y, 
 				auto* Checker = UThumbnailManager::Get().CheckerboardTexture;
 				Canvas->DrawTile(0.0f, 0.0f, Width, Height, 0.0f, 0.0f, CheckerDensity, CheckerDensity, FLinearColor::White, Checker->Resource);
 			}
-			
+
 			FCanvasTileItem CanvasTile(FVector2D(X, Y), Texture2D->Resource, FVector2D(Width, Height), SlateTexture->StartUV, SlateTexture->StartUV + SlateTexture->SizeUV, FLinearColor::White);
 			CanvasTile.BlendMode = bUseTranslucentBlend ? SE_BLEND_Translucent : SE_BLEND_Opaque;
 			CanvasTile.Draw(Canvas);
