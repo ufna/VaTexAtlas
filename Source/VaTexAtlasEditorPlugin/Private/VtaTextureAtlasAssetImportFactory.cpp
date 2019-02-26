@@ -8,7 +8,9 @@
 #include "VtaSlateTexture.h"
 #include "VtaTextureAtlasAsset.h"
 
+#include "Editor.h"
 #include "EditorFramework/AssetImportData.h"
+#include "EditorStyleSet.h"
 #include "Engine/Texture2D.h"
 #include "HAL/FileManager.h"
 #include "Json.h"
@@ -16,8 +18,10 @@
 #include "Misc/Paths.h"
 #include "ObjectTools.h"
 #include "PackageTools.h"
+#include "Widgets/Input/SButton.h"
 #include "Widgets/Input/SCheckBox.h"
 #include "Widgets/Input/SComboBox.h"
+#include "Widgets/Layout/SSpacer.h"
 
 #define LOCTEXT_NAMESPACE "VtaEditorPlugin"
 
@@ -523,7 +527,7 @@ UObject* UVtaTextureAtlasAssetImportFactory::CreateAsset(UClass* Class, const FS
 {
 	FAssetToolsModule& AssetToolsModule = FModuleManager::GetModuleChecked<FAssetToolsModule>("AssetTools");
 
-	const FString TentativePackagePath = PackageTools::SanitizePackageName(FPaths::Combine(TargetPath, Name));
+	const FString TentativePackagePath = UPackageTools::SanitizePackageName(FPaths::Combine(TargetPath, Name));
 	FString DefaultSuffix;
 	FString AssetName;
 	FString PackageName;
@@ -678,7 +682,7 @@ FString UVtaTextureAtlasAssetImportFactory::GetNormalizedFrameName(const FString
 {
 	int32 Position = INDEX_NONE;
 	FString Result = Name.FindLastChar(TEXT('.'), Position) ? Name.Left(Position) : Name;
-	Result = TEXT("_") + PackageTools::SanitizePackageName(Result);
+	Result = TEXT("_") + UPackageTools::SanitizePackageName(Result);
 
 	while (Result.FindChar(TEXT('_'), Position))
 	{

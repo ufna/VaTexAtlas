@@ -366,7 +366,7 @@ UObject* UVtaTextureAtlasImportFactory::CreateNewAsset(UClass* AssetClass, const
 	FAssetToolsModule& AssetToolsModule = FModuleManager::GetModuleChecked<FAssetToolsModule>("AssetTools");
 
 	// Create a unique package name and asset name for the frame
-	const FString TentativePackagePath = PackageTools::SanitizePackageName(TargetPath + TEXT("/") + DesiredName);
+	const FString TentativePackagePath = UPackageTools::SanitizePackageName(TargetPath + TEXT("/") + DesiredName);
 	FString DefaultSuffix;
 	FString AssetName;
 	FString PackageName;
@@ -474,7 +474,7 @@ void UVtaTextureAtlasImportFactory::ImportOrReimportDataTable(UVtaTextureAtlas* 
 			Name.FindLastChar(TEXT('.'), Position);
 
 			FString RowName = (Position < 1) ? Name : Name.Left(Position);
-			RowName = TEXT("_") + PackageTools::SanitizePackageName(RowName);
+			RowName = TEXT("_") + UPackageTools::SanitizePackageName(RowName);
 
 			while (RowName.FindChar(TEXT('_'), Position))
 			{
@@ -661,7 +661,7 @@ UVtaSlateTexture* UVtaTextureAtlasImportFactory::FindExistingSlateTexture(const 
 
 UMaterialInstanceConstant* UVtaTextureAtlasImportFactory::FindMaterialByFrameName(const FString& Name, TArray<TSoftObjectPtr<UMaterialInstanceConstant>> List)
 {
-	FString FindName = PackageTools::SanitizePackageName(Name);
+	FString FindName = UPackageTools::SanitizePackageName(Name);
 	for (auto AssetPtr : List)
 	{
 		FString AssetName = AssetPtr.ToSoftObjectPath().GetAssetName();
@@ -676,7 +676,7 @@ UMaterialInstanceConstant* UVtaTextureAtlasImportFactory::FindMaterialByFrameNam
 
 UVtaSlateTexture* UVtaTextureAtlasImportFactory::FindSlateTextureByFrameName(const FString& Name, TArray<TSoftObjectPtr<UVtaSlateTexture>> List)
 {
-	FString FindName = PackageTools::SanitizePackageName(Name);
+	FString FindName = UPackageTools::SanitizePackageName(Name);
 	for (auto AssetPtr : List)
 	{
 		FString AssetName = AssetPtr.ToSoftObjectPath().GetAssetName();
