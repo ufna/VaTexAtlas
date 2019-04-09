@@ -1,13 +1,16 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #pragma once
-#include "Factories/Factory.h"
-#include "EditorReimportHandler.h"
+
 #include "VtaAsset.h"
+
+#include "EditorReimportHandler.h"
+#include "Factories/Factory.h"
+
 #include "VtaTextureAtlasAssetImportFactory.generated.h"
 
 UCLASS()
-class VATEXATLASEDITORPLUGIN_API UVtaTextureAtlasAssetImportFactory final: public UFactory, public FReimportHandler
+class VATEXATLASEDITORPLUGIN_API UVtaTextureAtlasAssetImportFactory final : public UFactory, public FReimportHandler
 {
 	GENERATED_BODY()
 
@@ -27,7 +30,7 @@ public:
 	virtual EReimportResult::Type Reimport(UObject* Obj) override;
 	virtual const UObject* GetFactoryObject() const override { return this; }
 	// End ReimportHandler interface
-	
+
 private:
 	UPROPERTY(Transient)
 	class UVtaTextureAtlasAsset* CurrentAtlas;
@@ -36,7 +39,7 @@ private:
 
 	static TSharedPtr<class FJsonObject> ParseJSON(const FString& FileName);
 	static bool ImportAtlas(class UVtaTextureAtlasAsset* Atlas, FFeedbackContext* Warn);
-	
+
 	static UObject* CreateAsset(UClass* Class, const FString& TargetPath, const FString& Name, EObjectFlags Flags);
 	static UObject* ImportAsset(const FString& SourceFilename, const FString& TargetPath);
 	static UObject* FindAsset(UClass* AssetClass, const FString& Path, const FString& Name);

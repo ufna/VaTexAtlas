@@ -1,10 +1,11 @@
-// Copyright 2015-2017 Mail.Ru Group. All Rights Reserved.
+// Copyright 2015-2019 Mail.Ru Group. All Rights Reserved.
 
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/ObjectMacros.h"
 #include "ThumbnailRendering/ThumbnailRenderer.h"
+#include "UObject/ObjectMacros.h"
+
 #include "VtaSlateTextureThumbnailRenderer.generated.h"
 
 class FCanvas;
@@ -20,4 +21,3 @@ class UVtaSlateTextureThumbnailRenderer : public UThumbnailRenderer
 	virtual void Draw(UObject* Object, int32 X, int32 Y, uint32 Width, uint32 Height, FRenderTarget*, FCanvas* Canvas) override;
 	// End UThumbnailRenderer Object
 };
-

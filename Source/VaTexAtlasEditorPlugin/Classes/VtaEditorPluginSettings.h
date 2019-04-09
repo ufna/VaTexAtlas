@@ -1,4 +1,4 @@
-// Copyright 2015-2017 Mail.Ru Group. All Rights Reserved.
+// Copyright 2015-2019 Mail.Ru Group. All Rights Reserved.
 
 #pragma once
 
@@ -8,7 +8,7 @@ UCLASS(config = Engine, defaultconfig)
 class UVtaEditorPluginSettings : public UObject
 {
 	GENERATED_UCLASS_BODY()
-	
+
 public:
 	/** Generate slate textures */
 	UPROPERTY(Config, EditAnywhere)
@@ -17,7 +17,7 @@ public:
 	/** Generate material instances */
 	UPROPERTY(Config, EditAnywhere)
 	bool bGenerateMaterialInstances;
-	
+
 	/** Generate material instances */
 	UPROPERTY(Config, EditAnywhere)
 	bool bUseMultiAtlas;

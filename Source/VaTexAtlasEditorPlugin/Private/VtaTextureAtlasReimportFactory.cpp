@@ -1,6 +1,7 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #include "VtaTextureAtlasReimportFactory.h"
+
 #include "VtaEditorPlugin.h"
 
 #include "EditorFramework/AssetImportData.h"
@@ -32,7 +33,7 @@ bool UVtaTextureAtlasReimportFactory::CanReimport(UObject* Obj, TArray<FString>&
 		TextureAtlas->AssetImportData->ExtractFilenames(OutFilenames);
 		return true;
 	}
-	
+
 	return false;
 }
 
@@ -76,7 +77,7 @@ EReimportResult::Type UVtaTextureAtlasReimportFactory::Reimport(UObject* Obj)
 		UE_LOG(LogVaTexAtlasEditor, Log, TEXT("Imported successfully"));
 
 		TextureAtlas->AssetImportData->Update(Filename);
-		
+
 		// Try to find the outer package so we can dirty it up
 		if (TextureAtlas->GetOuter())
 		{

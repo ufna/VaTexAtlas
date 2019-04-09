@@ -1,12 +1,12 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #include "VtaTextureAtlas.h"
+
 #include "EditorFramework/AssetImportData.h"
 
 UVtaTextureAtlas::UVtaTextureAtlas(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-
 }
 
 #if WITH_EDITORONLY_DATA

@@ -1,16 +1,16 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #include "VtaEditorPlugin.h"
+
 #include "IVaTexAtlasEditorPlugin.h"
-
-#include "ThumbnailRendering/ThumbnailManager.h"
-#include "ISettingsModule.h"
-
+#include "VtaEditorPluginSettings.h"
 #include "VtaSlateTexture.h"
 #include "VtaSlateTextureThumbnailRenderer.h"
-#include "VtaEditorPluginSettings.h"
-#include "VtaTextureAtlasAssetTypeActions.h"
 #include "VtaTextureAtlasAssetActions.h"
+#include "VtaTextureAtlasAssetTypeActions.h"
+
+#include "ISettingsModule.h"
+#include "ThumbnailRendering/ThumbnailManager.h"
 
 #define LOCTEXT_NAMESPACE "VaTexAtlasEditorPlugin"
 
@@ -24,22 +24,21 @@ class FVaTexAtlasEditorPlugin : public IVaTexAtlasEditorPlugin
 
 		TextureAtlasAssetTypeActions = MakeShareable(new FVtaTextureAtlasAssetTypeActions);
 		AssetTools.RegisterAssetTypeActions(TextureAtlasAssetTypeActions.ToSharedRef());
-		
+
 		/** New texture atlas asset actions */
 		TextureAtlasAssetActions = MakeShareable(new FVtaTextureAtlasAssetActions);
 		AssetTools.RegisterAssetTypeActions(TextureAtlasAssetActions.ToSharedRef());
 
 		// Registration thumbnail renderer for slate texture
 		UThumbnailManager::Get().RegisterCustomRenderer(UVtaSlateTexture::StaticClass(), UVtaSlateTextureThumbnailRenderer::StaticClass());
-		
+
 		// Registration plugin settings
 		if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
 		{
 			SettingsModule->RegisterSettings("Project", "Plugins", "VaTexAtlasEditor",
-											 LOCTEXT("RuntimeSettingsName", "VaTexAtlasEditor"),
-											 LOCTEXT("RuntimeSettingsDescription", "Configure atlas generation settings"),
-											 GetMutableDefault<UVtaEditorPluginSettings>()
-											 );
+				LOCTEXT("RuntimeSettingsName", "VaTexAtlasEditor"),
+				LOCTEXT("RuntimeSettingsDescription", "Configure atlas generation settings"),
+				GetMutableDefault<UVtaEditorPluginSettings>());
 		}
 	}
 
@@ -53,13 +52,13 @@ class FVaTexAtlasEditorPlugin : public IVaTexAtlasEditorPlugin
 				AssetTools.UnregisterAssetTypeActions(TextureAtlasAssetTypeActions.ToSharedRef());
 			}
 		}
-		
+
 		if (UObjectInitialized())
 		{
 			// Unregister thumbnail renderer for slate texture
 			UThumbnailManager::Get().UnregisterCustomRenderer(UVtaSlateTexture::StaticClass());
 		}
-		
+
 		// Unregister plugin settings
 		if (ISettingsModule* SettingsModule = FModuleManager::GetModulePtr<ISettingsModule>("Settings"))
 		{
@@ -71,7 +70,6 @@ private:
 	/** Asset type action */
 	TSharedPtr<IAssetTypeActions> TextureAtlasAssetTypeActions;
 	TSharedPtr<IAssetTypeActions> TextureAtlasAssetActions;
-	
 };
 
 IMPLEMENT_MODULE(FVaTexAtlasEditorPlugin, VaTexAtlasEditorPlugin)

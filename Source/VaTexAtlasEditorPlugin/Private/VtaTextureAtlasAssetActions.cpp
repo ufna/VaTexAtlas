@@ -1,6 +1,7 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #include "VtaTextureAtlasAssetActions.h"
+
 #include "VtaTextureAtlasAsset.h"
 
 #include "EditorFramework/AssetImportData.h"
@@ -51,7 +52,6 @@ void FVtaTextureAtlasAssetActions::GetResolvedSourceFilePaths(const TArray<UObje
 
 void FVtaTextureAtlasAssetActions::GetActions(const TArray<UObject*>& InObjects, FMenuBuilder& MenuBuilder)
 {
-
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #pragma once
 
@@ -16,10 +16,8 @@ struct FVtaJsonImportable
 
 public:
 	virtual bool ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent) PURE_VIRTUAL(FVtaJsonImportable::ParseFromJSON, return false;);
-	virtual ~FVtaJsonImportable() {};
-
+	virtual ~FVtaJsonImportable(){};
 };
-
 
 //////////////////////////////////////////////////////////////////////////
 // FVtaSize
@@ -39,9 +37,7 @@ public:
 	FVtaSize();
 
 	bool ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent) override;
-
 };
-
 
 //////////////////////////////////////////////////////////////////////////
 // FVtaRegion
@@ -67,9 +63,7 @@ public:
 	FVtaRegion();
 
 	bool ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent) override;
-
 };
-
 
 //////////////////////////////////////////////////////////////////////////
 // FVtaFrame
@@ -79,20 +73,18 @@ struct FVtaFrame : public FVtaJsonImportable
 {
 public:
 	GENERATED_USTRUCT_BODY()
-	
+
 	// "filename": "myimage", (should be trimmed!)
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	FString Filename;
-	
+
 	// "frame": {"x":387,"y":467,"w":300,"h":347},
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	FVtaRegion Frame;
 
 public:
 	bool ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent) override;
-
 };
-
 
 //////////////////////////////////////////////////////////////////////////
 // FVtaMeta
@@ -102,7 +94,7 @@ struct FVtaMeta : public FVtaJsonImportable
 {
 public:
 	GENERATED_USTRUCT_BODY()
-		
+
 	// "app": "http://www.codeandweb.com/texturepacker",
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	FString App;
@@ -125,9 +117,7 @@ public:
 
 public:
 	bool ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent) override;
-
 };
-
 
 //////////////////////////////////////////////////////////////////////////
 // FVtaDataFile
@@ -137,7 +127,7 @@ struct FVtaDataFile
 {
 public:
 	GENERATED_USTRUCT_BODY()
-		
+
 	UPROPERTY(VisibleAnywhere, Category = "VaTexAtlas")
 	FVtaMeta Meta;
 
@@ -152,5 +142,4 @@ public:
 
 protected:
 	bool bSuccessfullyParsed;
-
 };

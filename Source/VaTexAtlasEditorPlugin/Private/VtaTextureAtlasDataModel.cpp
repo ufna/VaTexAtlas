@@ -1,15 +1,21 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #include "VtaTextureAtlasDataModel.h"
+
 #include "VtaEditorPlugin.h"
 
 #define LOCTEXT_NAMESPACE "VtaEditorPlugin"
 
-#define VTA_IMPORT_ERROR(FormatString, ...) \
-	if (!bSilent) { UE_LOG(LogVaTexAtlasEditor, Error, FormatString, __VA_ARGS__); }
-#define VTA_IMPORT_WARNING(FormatString, ...) \
-	if (!bSilent) { UE_LOG(LogVaTexAtlasEditor, Warning, FormatString, __VA_ARGS__); }
-
+#define VTA_IMPORT_ERROR(FormatString, ...)                            \
+	if (!bSilent)                                                      \
+	{                                                                  \
+		UE_LOG(LogVaTexAtlasEditor, Error, FormatString, __VA_ARGS__); \
+	}
+#define VTA_IMPORT_WARNING(FormatString, ...)                            \
+	if (!bSilent)                                                        \
+	{                                                                    \
+		UE_LOG(LogVaTexAtlasEditor, Warning, FormatString, __VA_ARGS__); \
+	}
 
 //////////////////////////////////////////////////////////////////////////
 // FVtaSize
@@ -18,7 +24,6 @@ FVtaSize::FVtaSize()
 	: W(0)
 	, H(0)
 {
-
 }
 
 bool FVtaSize::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent)
@@ -43,7 +48,6 @@ bool FVtaSize::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameFo
 	return bSuccessfullyParsed;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 // FVtaRegion
 
@@ -53,7 +57,6 @@ FVtaRegion::FVtaRegion()
 	, W(0)
 	, H(0)
 {
-
 }
 
 bool FVtaRegion::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameForErrors, bool bSilent)
@@ -89,7 +92,6 @@ bool FVtaRegion::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& Name
 
 	return bSuccessfullyParsed;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 // FVtaFrame
@@ -136,7 +138,6 @@ bool FVtaFrame::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameF
 
 	return bSuccessfullyParsed;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 // FVtaMeta
@@ -224,7 +225,6 @@ bool FVtaMeta::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& NameFo
 	return bSuccessfullyParsed;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 // FVtaDataFile
 
@@ -239,7 +239,7 @@ void FVtaDataFile::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& Na
 
 	// Parse the meta object
 	const TSharedPtr<FJsonObject>* MetaDescriptor;
-	if(Tree->TryGetObjectField(TEXT("meta"), MetaDescriptor))
+	if (Tree->TryGetObjectField(TEXT("meta"), MetaDescriptor))
 	{
 		const bool bParsedEntityOK = Meta.ParseFromJSON(*MetaDescriptor, NameForErrors, bSilent);
 		bSuccessfullyParsed = bSuccessfullyParsed && bParsedEntityOK;
@@ -249,7 +249,7 @@ void FVtaDataFile::ParseFromJSON(TSharedPtr<FJsonObject> Tree, const FString& Na
 		VTA_IMPORT_ERROR(TEXT("JSON exported from TexturePacker in file '%s' has no meta."), *NameForErrors);
 		bSuccessfullyParsed = false;
 	}
-	
+
 	// Just check that array field for frames exists
 	if (bPreparseOnly)
 	{
@@ -284,7 +284,6 @@ bool FVtaDataFile::IsValid() const
 {
 	return bSuccessfullyParsed;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 

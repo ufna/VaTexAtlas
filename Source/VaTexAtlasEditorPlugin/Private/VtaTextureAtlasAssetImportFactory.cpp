@@ -1,23 +1,27 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #include "VtaTextureAtlasAssetImportFactory.h"
+
+#include "VtaAsset.h"
 #include "VtaEditorPlugin.h"
 #include "VtaEditorPluginSettings.h"
-#include "VtaTextureAtlasAsset.h"
-#include "VtaAsset.h"
 #include "VtaSlateTexture.h"
+#include "VtaTextureAtlasAsset.h"
 
-#include "Json.h"
+#include "Editor.h"
+#include "EditorFramework/AssetImportData.h"
+#include "EditorStyleSet.h"
 #include "Engine/Texture2D.h"
+#include "HAL/FileManager.h"
+#include "Json.h"
+#include "Misc/FileHelper.h"
+#include "Misc/Paths.h"
 #include "ObjectTools.h"
 #include "PackageTools.h"
-#include "Misc/Paths.h"
-#include "Misc/FileHelper.h"
-#include "HAL/FileManager.h"
-#include "EditorFramework/AssetImportData.h"
-
-#include "Widgets/Input/SComboBox.h"
+#include "Widgets/Input/SButton.h"
 #include "Widgets/Input/SCheckBox.h"
+#include "Widgets/Input/SComboBox.h"
+#include "Widgets/Layout/SSpacer.h"
 
 #define LOCTEXT_NAMESPACE "VtaEditorPlugin"
 
@@ -29,7 +33,8 @@ public:
 		, bImportAsMultipack(bInIsValidMultipackName)
 		, TextureCompressionSetting(TextureCompressionSettings::TC_EditorIcon)
 		, bUserCanceled(false)
-	{}
+	{
+	}
 
 	bool GetImportAsMultipack() const { return bImportAsMultipack; }
 	TextureCompressionSettings GetTextureCompressionSetting() const { return TextureCompressionSetting; }
@@ -46,7 +51,7 @@ public:
 			return FText::GetEmpty();
 		}
 
-		return UEnum::GetDisplayValueAsText<TextureCompressionSettings>(TEXT("/Script/Engine.TextureCompressionSettings"), CompressionSettingsSelector->GetSelectedItem().IsValid()? *CompressionSettingsSelector->GetSelectedItem() : TC_Default);
+		return UEnum::GetDisplayValueAsText<TextureCompressionSettings>(TEXT("/Script/Engine.TextureCompressionSettings"), CompressionSettingsSelector->GetSelectedItem().IsValid() ? *CompressionSettingsSelector->GetSelectedItem() : TC_Default);
 	}
 
 	FReply OnOk()
@@ -80,6 +85,7 @@ public:
 			PossibleCompressionSettings.Add(MakeShareable(new TextureCompressionSettings(static_cast<TextureCompressionSettings>(Setting))));
 		}
 
+		// clang-format off
 		CompressionSettingsSelector = SNew(SComboBox<TSharedPtr<TextureCompressionSettings>>)
 			.OptionsSource(&PossibleCompressionSettings)
 			.OnGenerateWidget(this, &FVtaTextureAtlasAssetImportUI::MakeCompressionSettingSelectorItemWidget)
@@ -159,6 +165,7 @@ public:
 					]
 				]
 			];
+		// clang-format on
 
 		GEditor->EditorAddModalWindow(DialogWindow.ToSharedRef());
 
@@ -172,7 +179,7 @@ private:
 	bool bUserCanceled;
 
 	TSharedPtr<SWindow> DialogWindow;
-	TSharedPtr<SComboBox< TSharedPtr<TextureCompressionSettings> >> CompressionSettingsSelector;
+	TSharedPtr<SComboBox<TSharedPtr<TextureCompressionSettings>>> CompressionSettingsSelector;
 	TSharedPtr<SCheckBox> MultipackOptionCheckbox;
 };
 
@@ -210,7 +217,7 @@ FText UVtaTextureAtlasAssetImportFactory::GetToolTip() const
 	return LOCTEXT("VtaTextureAtlasAssetImportFactoryDescription", "Texture atlas imported from TexturePacker (new version)");
 }
 
-UObject* UVtaTextureAtlasAssetImportFactory::FactoryCreateFile(UClass * InClass, UObject * InParent, FName InName, EObjectFlags Flags, const FString & Filename, const TCHAR * Parms, FFeedbackContext * Warn, bool & bOutOperationCanceled)
+UObject* UVtaTextureAtlasAssetImportFactory::FactoryCreateFile(UClass* InClass, UObject* InParent, FName InName, EObjectFlags Flags, const FString& Filename, const TCHAR* Parms, FFeedbackContext* Warn, bool& bOutOperationCanceled)
 {
 	FString MultipackAtlasName;
 	int32 Index = 0;
@@ -235,8 +242,8 @@ UObject* UVtaTextureAtlasAssetImportFactory::FactoryCreateFile(UClass * InClass,
 
 	Flags |= RF_Transactional;
 
-	InName = SettingsUI->GetImportAsMultipack()? *MultipackAtlasName : *FPaths::GetBaseFilename(Filename);
-	FEditorDelegates::OnAssetPreImport.Broadcast(this, InClass, InParent, InName, *FPaths::GetExtension(Filename));
+	InName = SettingsUI->GetImportAsMultipack() ? *MultipackAtlasName : *FPaths::GetBaseFilename(Filename);
+	GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetPreImport.Broadcast(this, InClass, InParent, InName, *FPaths::GetExtension(Filename));
 
 	CurrentAtlas = NewObject<UVtaTextureAtlasAsset>(InParent, InName, Flags);
 	CurrentAtlas->Modify();
@@ -262,7 +269,7 @@ UObject* UVtaTextureAtlasAssetImportFactory::FactoryCreateFile(UClass * InClass,
 
 	CurrentAtlas->PostEditChange();
 
-	FEditorDelegates::OnAssetPostImport.Broadcast(this, CurrentAtlas);
+	GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetPostImport.Broadcast(this, CurrentAtlas);
 	return CurrentAtlas;
 }
 
@@ -272,7 +279,7 @@ bool UVtaTextureAtlasAssetImportFactory::CanReimport(UObject* Obj, TArray<FStrin
 	{
 		return false;
 	}
-	
+
 	UVtaTextureAtlasAsset* Atlas = Cast<UVtaTextureAtlasAsset>(Obj);
 	Atlas->AssetImportData->ExtractFilenames(OutFilenames);
 	return true;
@@ -321,7 +328,7 @@ TSharedPtr<class FJsonObject> UVtaTextureAtlasAssetImportFactory::ParseJSON(cons
 	// Load the file up (JSON format)
 	if (!FileContents.IsEmpty())
 	{
-		const TSharedRef< TJsonReader<> >& Reader = TJsonReaderFactory<>::Create(FileContents);
+		const TSharedRef<TJsonReader<>>& Reader = TJsonReaderFactory<>::Create(FileContents);
 
 		TSharedPtr<FJsonObject> DescriptorObject;
 		if (FJsonSerializer::Deserialize(Reader, DescriptorObject) && DescriptorObject.IsValid())
@@ -416,7 +423,7 @@ bool UVtaTextureAtlasAssetImportFactory::ImportAtlas(UVtaTextureAtlasAsset* Atla
 			ImportedFiles.Add(SourceDataFile, DataFile);
 
 			UTexture2D* Texture = ProcessTexture(Atlas, DataFile.Meta.Image);
-			
+
 			if (!Texture)
 			{
 				Warn->Logf(ELogVerbosity::Error, TEXT("Failed to import texture %s"), *DataFile.Meta.Image);
@@ -454,7 +461,7 @@ bool UVtaTextureAtlasAssetImportFactory::ImportAtlas(UVtaTextureAtlasAsset* Atla
 
 	for (const auto& Frame : Atlas->Frames)
 	{
-		if(!ImportedFrames.Contains(Frame.Key))
+		if (!ImportedFrames.Contains(Frame.Key))
 		{
 			if (!Frame.Value.Material.IsNull())
 			{
@@ -507,7 +514,7 @@ bool UVtaTextureAtlasAssetImportFactory::ImportAtlas(UVtaTextureAtlasAsset* Atla
 
 	Atlas->PostEditChange();
 	Atlas->AssetImportData->Update(SourceDataFiles[0]);
-	
+
 	/*
 	if (PendingDeleteObjects.Num() > 0)
 	{
@@ -520,7 +527,7 @@ UObject* UVtaTextureAtlasAssetImportFactory::CreateAsset(UClass* Class, const FS
 {
 	FAssetToolsModule& AssetToolsModule = FModuleManager::GetModuleChecked<FAssetToolsModule>("AssetTools");
 
-	const FString TentativePackagePath = PackageTools::SanitizePackageName(FPaths::Combine(TargetPath, Name));
+	const FString TentativePackagePath = UPackageTools::SanitizePackageName(FPaths::Combine(TargetPath, Name));
 	FString DefaultSuffix;
 	FString AssetName;
 	FString PackageName;
@@ -558,7 +565,7 @@ UObject* UVtaTextureAtlasAssetImportFactory::FindAsset(UClass* AssetClass, const
 	AssetRegistryModule.Get().GetAssets(Filter, Assets);
 	auto* Asset = Assets.FindByPredicate([Name](const FAssetData& AssetData) { return AssetData.AssetName.ToString().Equals(Name); });
 
-	return Asset? Asset->GetAsset() : nullptr;
+	return Asset ? Asset->GetAsset() : nullptr;
 }
 
 UTexture2D* UVtaTextureAtlasAssetImportFactory::ProcessTexture(UVtaTextureAtlasAsset* Atlas, const FString& TextureName)
@@ -643,7 +650,7 @@ FVtaAsset UVtaTextureAtlasAssetImportFactory::ProcessFrame(UVtaTextureAtlasAsset
 
 	if (Settings->bGenerateSlateTextures)
 	{
-		UVtaSlateTexture* SlateTexture = ExistingFrame? ExistingFrame->SlateTexture.Get() : nullptr;
+		UVtaSlateTexture* SlateTexture = ExistingFrame ? ExistingFrame->SlateTexture.Get() : nullptr;
 		if (!SlateTexture)
 		{
 			const FString& AssetName = FString::Printf(TEXT("ST_%s_%s"), *Atlas->AtlasName, *Frame.Filename);
@@ -675,7 +682,7 @@ FString UVtaTextureAtlasAssetImportFactory::GetNormalizedFrameName(const FString
 {
 	int32 Position = INDEX_NONE;
 	FString Result = Name.FindLastChar(TEXT('.'), Position) ? Name.Left(Position) : Name;
-	Result = TEXT("_") + PackageTools::SanitizePackageName(Result);
+	Result = TEXT("_") + UPackageTools::SanitizePackageName(Result);
 
 	while (Result.FindChar(TEXT('_'), Position))
 	{

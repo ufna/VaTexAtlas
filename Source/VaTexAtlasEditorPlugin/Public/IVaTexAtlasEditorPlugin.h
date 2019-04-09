@@ -1,9 +1,8 @@
-// Copyright 2016 Vladimir Alyamkin. All Rights Reserved.
+// Copyright 2016-2019 Vladimir Alyamkin. All Rights Reserved.
 
 #pragma once
 
 #include "Modules/ModuleManager.h"
-
 
 /**
  * The public interface to this module.  In most cases, this interface is only public to sibling modules 
@@ -13,7 +12,6 @@ class IVaTexAtlasEditorPlugin : public IModuleInterface
 {
 
 public:
-
 	/**
 	 * Singleton-like access to this module's interface.  This is just for convenience!
 	 * Beware of calling this during the shutdown phase, though.  Your module might have been unloaded already.
@@ -22,7 +20,7 @@ public:
 	 */
 	static inline IVaTexAtlasEditorPlugin& Get()
 	{
-		return FModuleManager::LoadModuleChecked< IVaTexAtlasEditorPlugin >( "VaTexAtlasEditorPlugin" );
+		return FModuleManager::LoadModuleChecked<IVaTexAtlasEditorPlugin>("VaTexAtlasEditorPlugin");
 	}
 
 	/**
@@ -32,7 +30,6 @@ public:
 	 */
 	static inline bool IsAvailable()
 	{
-		return FModuleManager::Get().IsModuleLoaded( "VaTexAtlasEditorPlugin" );
+		return FModuleManager::Get().IsModuleLoaded("VaTexAtlasEditorPlugin");
 	}
 };
-
