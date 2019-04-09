@@ -9,7 +9,7 @@ The plugin is designed to work with **sprite sheet data** exported from [Texture
 
 Check the [Wiki](https://hiazma.atlassian.net/wiki/display/VTA/) for plugin usage examples and installation notes.
 
-Current version: **1.0 R 6** (UE 4.19-4.21)
+Current version: **1.0 R 6** (UE 4.22)
 
 ![SCREENSHOT](SCREENSHOT.jpg)
 

@@ -243,7 +243,7 @@ UObject* UVtaTextureAtlasAssetImportFactory::FactoryCreateFile(UClass* InClass, 
 	Flags |= RF_Transactional;
 
 	InName = SettingsUI->GetImportAsMultipack() ? *MultipackAtlasName : *FPaths::GetBaseFilename(Filename);
-	FEditorDelegates::OnAssetPreImport.Broadcast(this, InClass, InParent, InName, *FPaths::GetExtension(Filename));
+	GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetPreImport.Broadcast(this, InClass, InParent, InName, *FPaths::GetExtension(Filename));
 
 	CurrentAtlas = NewObject<UVtaTextureAtlasAsset>(InParent, InName, Flags);
 	CurrentAtlas->Modify();
@@ -269,7 +269,7 @@ UObject* UVtaTextureAtlasAssetImportFactory::FactoryCreateFile(UClass* InClass, 
 
 	CurrentAtlas->PostEditChange();
 
-	FEditorDelegates::OnAssetPostImport.Broadcast(this, CurrentAtlas);
+	GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetPostImport.Broadcast(this, CurrentAtlas);
 	return CurrentAtlas;
 }
 
