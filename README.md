@@ -7,7 +7,7 @@ Welcome to the VaTexAtlas source code!
 
 The plugin is designed to work with **sprite sheet data** exported from [TexturePacker](https://www.codeandweb.com/texturepacker) using **JSON Array** data format.
 
-Check the [Wiki](https://hiazma.atlassian.net/wiki/display/VTA/) for plugin usage examples and installation notes.
+Check the [Wiki](http://bit.ly/VaTexAtlas-Docs) for plugin usage examples and installation notes.
 
 Current version: **1.0 R 6** (UE 4.22-4.23)
 
