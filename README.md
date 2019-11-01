@@ -1,6 +1,8 @@
 VaTexAtlas
 ==========
 
+[![statusIcon](https://teamcity.ufna.dev/app/rest/builds/buildType:(id:UfnaDev_VaTexAtlas_ClangFormatCheck)/statusIcon.svg)](https://teamcity.ufna.dev/viewType.html?buildTypeId=UfnaDev_VaTexAtlas_ClangFormatCheck&guest=1)
+
 Welcome to the VaTexAtlas source code!
 
 **VaTexAtlas** is the plugin for [Unreal Engine 4](https://www.unrealengine.com/) that makes texture atlases simpler to use with **UMG system**.
