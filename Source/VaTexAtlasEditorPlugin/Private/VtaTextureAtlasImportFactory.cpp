@@ -11,6 +11,7 @@
 #include "IAssetTools.h"
 #include "PackageTools.h"
 #include "Runtime/Launch/Resources/Version.h"
+#include "Subsystems/AssetEditorSubsystem.h"
 
 #define LOCTEXT_NAMESPACE "VtaEditorPlugin"
 
@@ -87,7 +88,7 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 
 	Flags |= RF_Transactional;
 
-	FEditorDelegates::OnAssetPreImport.Broadcast(this, InClass, InParent, InName, Type);
+	GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetPreImport.Broadcast(this, InClass, InParent, InName, Type);
 
 	FAssetToolsModule& AssetToolsModule = FModuleManager::GetModuleChecked<FAssetToolsModule>("AssetTools");
 
@@ -318,7 +319,7 @@ UObject* UVtaTextureAtlasImportFactory::FactoryCreateText(UClass* InClass, UObje
 		ImportOrReimportMultiAtlasDataTable(LongPackagePath, MultiAtlasName, Flags);
 	}
 
-	FEditorDelegates::OnAssetPostImport.Broadcast(this, Result);
+	GEditor->GetEditorSubsystem<UImportSubsystem>()->OnAssetPostImport.Broadcast(this, Result);
 
 	// Reset the importer to ensure that no leftover data can contaminate future imports
 	ResetImportData();

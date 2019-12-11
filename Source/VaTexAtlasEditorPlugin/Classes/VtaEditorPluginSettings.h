@@ -11,17 +11,17 @@ class UVtaEditorPluginSettings : public UObject
 
 public:
 	/** Generate slate textures */
-	UPROPERTY(Config, EditAnywhere)
+	UPROPERTY(Config, EditAnywhere, Category = "VaTexAtlas Editor Settings")
 	bool bGenerateSlateTextures;
 
 	/** Generate material instances */
-	UPROPERTY(Config, EditAnywhere)
+	UPROPERTY(Config, EditAnywhere, Category = "VaTexAtlas Editor Settings")
 	bool bGenerateMaterialInstances;
 
 	/** Generate material instances */
-	UPROPERTY(Config, EditAnywhere)
+	UPROPERTY(Config, EditAnywhere, Category = "VaTexAtlas Editor Settings")
 	bool bUseMultiAtlas;
 
-	UPROPERTY(Config, EditAnywhere)
+	UPROPERTY(Config, EditAnywhere, Category = "VaTexAtlas Editor Settings")
 	bool bUseNewAtlasAsset;
 };
