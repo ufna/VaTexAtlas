@@ -11,7 +11,7 @@ The plugin is designed to work with **sprite sheet data** exported from [Texture
 
 Check the [Wiki](http://bit.ly/VaTexAtlas-Docs) for plugin usage examples and installation notes.
 
-Current version: **1.0 R 6** (UE 4.22-4.23)
+Current version: **1.0 R 7** (UE 4.24)
 
 ![SCREENSHOT](SCREENSHOT.jpg)
 
