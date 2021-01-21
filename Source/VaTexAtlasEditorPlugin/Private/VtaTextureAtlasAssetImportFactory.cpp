@@ -534,7 +534,7 @@ UObject* UVtaTextureAtlasAssetImportFactory::CreateAsset(UClass* Class, const FS
 	AssetToolsModule.Get().CreateUniqueAssetName(TentativePackagePath, DefaultSuffix, PackageName, AssetName);
 
 	// Create a package for the asset
-	UObject* OuterForAsset = CreatePackage(nullptr, *PackageName);
+	UObject* OuterForAsset = CreatePackage(*PackageName);
 
 	// Create a frame in the package
 	UObject* NewAsset = NewObject<UObject>(OuterForAsset, Class, *AssetName, Flags);
